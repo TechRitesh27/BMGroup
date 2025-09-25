@@ -1,0 +1,10 @@
+.manage-rooms {
+  padding: 20px;
+  background-color: #f0f2f5;
+}
+
+.manage-rooms h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}

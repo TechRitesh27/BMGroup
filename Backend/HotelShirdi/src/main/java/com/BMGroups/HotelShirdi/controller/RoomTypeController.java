@@ -2,6 +2,7 @@ package com.BMGroups.HotelShirdi.controller;
 
 import com.BMGroups.HotelShirdi.model.RoomType;
 import com.BMGroups.HotelShirdi.service.RoomTypeService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,12 @@ public class RoomTypeController {
     @PostMapping
     public RoomType addRoomType(@RequestBody RoomType roomType) {
         return roomTypeService.addRoomType(roomType);
+    }
+
+    @PutMapping("/{id}") // ✅ corrected path
+    public ResponseEntity<RoomType> updateRoomType(@PathVariable Long id, @RequestBody RoomType updatedType) {
+        RoomType roomType = roomTypeService.updateRoomType(id, updatedType); // ✅ delegate to service
+        return ResponseEntity.ok(roomType);
     }
 
     @GetMapping

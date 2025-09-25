@@ -19,6 +19,18 @@ public class RoomTypeService {
         return roomTypeRepository.save(roomType);
     }
 
+    public RoomType updateRoomType(Long id, RoomType updatedType) {
+        RoomType existing = roomTypeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Room type not found"));
+
+        existing.setName(updatedType.getName());
+        existing.setPrice(updatedType.getPrice());
+        existing.setFacilities(updatedType.getFacilities());
+        existing.setCapacity(updatedType.getCapacity());
+
+        return roomTypeRepository.save(existing);
+    }
+
     public List<RoomType> getAllRoomTypes() {
         return roomTypeRepository.findAll();
     }

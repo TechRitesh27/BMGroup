@@ -1,0 +1,20 @@
+/* src/pages/ManageRoomTypes.css */
+.manage-room-types {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.manage-room-types h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.error-message {
+  margin-bottom: 16px;
+  padding: 12px;
+  background-color: #ffe0e0;
+  color: #b00020;
+  border: 1px solid #f5c2c2;
+  border-radius: 4px;
+}
