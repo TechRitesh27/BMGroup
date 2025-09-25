@@ -1,0 +1,49 @@
+/* src/components/RoomTypeTable.css */
+.room-type-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.room-type-table th,
+.room-type-table td {
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.room-type-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+.room-type-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.room-type-table .edit-btn {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.room-type-table .delete-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.room-type-table .no-data {
+  text-align: center;
+  font-style: italic;
+  color: #888;
+}

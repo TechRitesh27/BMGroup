@@ -9,4 +9,5 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     List<Room> findByStatus(String status);
     List<Room> findByRoomType_Name(String name); // e.g., "Deluxe"
     long countByStatus(String status);
+
 }

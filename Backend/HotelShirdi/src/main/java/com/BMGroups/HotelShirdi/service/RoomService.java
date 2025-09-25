@@ -19,6 +19,17 @@ public class RoomService {
         return roomRepository.save(room);
     }
 
+    public Room updateRoom(Long id, Room updatedRoom) {
+        Room existing = roomRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Room not found"));
+
+        existing.setRoomNumber(updatedRoom.getRoomNumber());
+        existing.setStatus(updatedRoom.getStatus());
+        existing.setRoomType(updatedRoom.getRoomType());
+
+        return roomRepository.save(existing);
+    }
+
     public List<Room> getAllRooms() {
         return roomRepository.findAll();
     }
