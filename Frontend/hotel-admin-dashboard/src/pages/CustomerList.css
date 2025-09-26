@@ -1,0 +1,55 @@
+.customer-list {
+  padding: 20px;
+  background-color: #fdfdfd;
+}
+
+.customer-list h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.customer-table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.customer-table th,
+.customer-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+.customer-table th {
+  background-color: #f5f5f5;
+  color: #555;
+}
+
+.details-btn {
+  padding: 6px 12px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.details-btn:hover {
+  background-color: #1976d2;
+}
+
+.details-row td {
+  background-color: #f9f9f9;
+  padding: 16px;
+}
+
+.details-box {
+  font-size: 14px;
+  color: #444;
+}
+
+.details-box p {
+  margin: 6px 0;
+}

@@ -1,0 +1,105 @@
+.bookings-page {
+  padding: 24px;
+  background-color: #f9f9f9;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.bookings-page h2 {
+  font-size: 26px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.error-message {
+  color: #d32f2f;
+  background-color: #fdecea;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+
+/* Filters */
+.booking-filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.booking-filters input,
+.booking-filters select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #fff;
+}
+
+/* Table */
+.bookings-table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  background-color: #fff;
+}
+
+.bookings-table th,
+.bookings-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  font-size: 14px;
+}
+
+.bookings-table th {
+  background-color: #f0f0f0;
+  color: #555;
+  font-weight: 600;
+}
+
+/* Dropdowns */
+select {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  background-color: #fff;
+}
+
+/* Buttons */
+button {
+  padding: 6px 12px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #1976d2;
+}
+
+/* Expanded Details */
+.details-row td {
+  background-color: #fafafa;
+  padding: 20px;
+}
+
+.details-box {
+  font-size: 14px;
+  color: #444;
+}
+
+.details-box h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.details-box p {
+  margin: 6px 0;
+}

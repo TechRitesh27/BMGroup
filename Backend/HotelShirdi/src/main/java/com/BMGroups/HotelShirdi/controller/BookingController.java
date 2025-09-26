@@ -1,7 +1,10 @@
 package com.BMGroups.HotelShirdi.controller;
 
+import com.BMGroups.HotelShirdi.DTO.MonthlyBookingStats;
+import com.BMGroups.HotelShirdi.DTO.RoomRevenueStats;
 import com.BMGroups.HotelShirdi.model.Booking;
 import com.BMGroups.HotelShirdi.service.BookingService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,5 +37,27 @@ public class BookingController {
     @DeleteMapping("/{id}")
     public void cancelBooking(@PathVariable Long id) {
         bookingService.cancelBooking(id);
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<?> updateBookingStatus(@PathVariable Long id, @RequestBody String status) {
+        bookingService.updateStatus(id, status);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{bookingId}/assign-room/{roomId}")
+    public ResponseEntity<?> assignRoom(@PathVariable Long bookingId, @PathVariable Long roomId) {
+        bookingService.assignRoom(bookingId, roomId);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/report/monthly-bookings")
+    public List<MonthlyBookingStats> getMonthlyBookingStats() {
+        return bookingService.getMonthlyStats();
+    }
+
+    @GetMapping("/report/room-revenue")
+    public List<RoomRevenueStats> getRoomRevenueStats() {
+        return bookingService.getRevenueStats();
     }
 }
