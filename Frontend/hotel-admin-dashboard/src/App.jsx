@@ -8,6 +8,8 @@ import Bookings from "./pages/Booking.jsx";
 import CustomerList from "./pages/CustomerList.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import UserDashboard from "./Components/UserDashboard/UserDashboard";
+import ManagePackages from "./pages/ManagePackages.jsx";
 
 function App() {
   return (
@@ -38,6 +40,14 @@ function App() {
           }
         />
         <Route
+          path="/packages"
+          element={
+            <AdminLayout>
+              <ManagePackages />
+            </AdminLayout>
+          }
+        />
+        <Route
           path="/bookings"
           element={
             <AdminLayout>
@@ -53,6 +63,7 @@ function App() {
             </AdminLayout>
           }
         />
+        <Route path="/user-dashboard" element={<UserDashboard />} />
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} />
     </>

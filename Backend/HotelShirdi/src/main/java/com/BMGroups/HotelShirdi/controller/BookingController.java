@@ -60,4 +60,6 @@ public class BookingController {
     public List<RoomRevenueStats> getRoomRevenueStats() {
         return bookingService.getRevenueStats();
     }
+
+
 }

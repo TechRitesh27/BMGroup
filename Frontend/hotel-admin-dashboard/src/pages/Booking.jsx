@@ -15,7 +15,6 @@ const Bookings = () => {
   const [searchName, setSearchName] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
 
-  // Notifications
   const [alerts, setAlerts] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -93,12 +92,18 @@ const Bookings = () => {
       (filterStatus === "" || b.status === filterStatus)
   );
 
+  const roomBookings = filteredBookings.filter((b) => b.room);
+  const packageBookings = filteredBookings.filter((b) => b.travelPackage);
+
   return (
     <div className="bookings-page">
       <ToastContainer position="top-right" autoClose={3000} />
       <div className="bookings-header">
         <h2>📖 All Bookings</h2>
-        <div className="notification-bell" onClick={() => setShowDropdown(!showDropdown)}>
+        <div
+          className="notification-bell"
+          onClick={() => setShowDropdown(!showDropdown)}
+        >
           <FaBell />
           {alerts.length > 0 && <span className="badge">{alerts.length}</span>}
           {showDropdown && (
@@ -122,7 +127,10 @@ const Bookings = () => {
           value={searchName}
           onChange={(e) => setSearchName(e.target.value)}
         />
-        <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
+        <select
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+        >
           <option value="">All Statuses</option>
           <option value="Booked">Booked</option>
           <option value="Completed">Completed</option>
@@ -130,6 +138,8 @@ const Bookings = () => {
         </select>
       </div>
 
+      {/* 🏨 Room Bookings */}
+      <h3>🏨 Room Bookings</h3>
       <table className="bookings-table">
         <thead>
           <tr>
@@ -143,18 +153,20 @@ const Bookings = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredBookings.map((booking) => (
+          {roomBookings.map((booking) => (
             <React.Fragment key={booking.id}>
               <tr>
                 <td>{booking.id}</td>
                 <td>{booking.customer.name}</td>
-                <td>{booking.room?.roomNumber || "Unassigned"}</td>
+                <td>{booking.room.roomNumber}</td>
                 <td>{booking.checkInDate}</td>
                 <td>{booking.checkOutDate}</td>
                 <td>
                   <select
                     value={booking.status}
-                    onChange={(e) => handleStatusChange(booking.id, e.target.value)}
+                    onChange={(e) =>
+                      handleStatusChange(booking.id, e.target.value)
+                    }
                   >
                     <option value="Booked">Booked</option>
                     <option value="Completed">Completed</option>
@@ -163,7 +175,9 @@ const Bookings = () => {
                 </td>
                 <td>
                   <button onClick={() => toggleDetails(booking.id)}>
-                    {expandedId === booking.id ? "Hide Details" : "View Details"}
+                    {expandedId === booking.id
+                      ? "Hide Details"
+                      : "View Details"}
                   </button>
                 </td>
               </tr>
@@ -173,22 +187,34 @@ const Bookings = () => {
                   <td colSpan="7">
                     <div className="details-box">
                       <h4>👤 Customer Info</h4>
-                      <p><strong>Name:</strong> {booking.customer.name}</p>
-                      <p><strong>Email:</strong> {booking.customer.email}</p>
-                      <p><strong>Phone:</strong> {booking.customer.phone}</p>
+                      <p>
+                        <strong>Name:</strong> {booking.customer.name}
+                      </p>
+                      <p>
+                        <strong>Email:</strong> {booking.customer.email}
+                      </p>
+                      <p>
+                        <strong>Phone:</strong> {booking.customer.phone}
+                      </p>
 
                       <h4>🏨 Room Info</h4>
-                      {booking.room ? (
-                        <>
-                          <p><strong>Room Number:</strong> {booking.room.roomNumber}</p>
-                          <p><strong>Type:</strong> {booking.room.roomType.name}</p>
-                          <p><strong>Facilities:</strong> {booking.room.roomType.facilities}</p>
-                          <p><strong>Price:</strong> ₹{booking.room.roomType.price}</p>
-                          <p><strong>Capacity:</strong> {booking.room.roomType.capacity}</p>
-                        </>
-                      ) : (
-                        <p><em>No room assigned yet.</em></p>
-                      )}
+                      <p>
+                        <strong>Room Number:</strong> {booking.room.roomNumber}
+                      </p>
+                      <p>
+                        <strong>Type:</strong> {booking.room.roomType.name}
+                      </p>
+                      <p>
+                        <strong>Facilities:</strong>{" "}
+                        {booking.room.roomType.facilities}
+                      </p>
+                      <p>
+                        <strong>Price:</strong> ₹{booking.room.roomType.price}
+                      </p>
+                      <p>
+                        <strong>Capacity:</strong>{" "}
+                        {booking.room.roomType.capacity}
+                      </p>
 
                       <h4>🛏️ Assign Room</h4>
                       <select
@@ -208,11 +234,100 @@ const Bookings = () => {
                         ))}
                       </select>
                       <button
-                        onClick={() => assignRoom(booking.id, selectedRoomMap[booking.id])}
+                        onClick={() =>
+                          assignRoom(booking.id, selectedRoomMap[booking.id])
+                        }
                         disabled={!selectedRoomMap[booking.id]}
                       >
                         Assign Room
                       </button>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </React.Fragment>
+          ))}
+        </tbody>
+      </table>
+
+      {/* 🌍 Travel Package Bookings */}
+      <h3>🌍 Travel Package Bookings</h3>
+      <table className="bookings-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Package</th>
+            <th>Destination</th>
+            <th>Duration</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {packageBookings.map((booking) => (
+            <React.Fragment key={booking.id}>
+              <tr>
+                <td>{booking.id}</td>
+                <td>{booking.customer.name}</td>
+                <td>{booking.travelPackage.title}</td>
+                <td>{booking.travelPackage.destination}</td>
+                <td>{booking.travelPackage.durationDays} days</td>
+                <td>
+                  <select
+                    value={booking.status}
+                    onChange={(e) =>
+                      handleStatusChange(booking.id, e.target.value)
+                    }
+                  >
+                    <option value="Booked">Booked</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                  </select>
+                </td>
+                <td>
+                  <button onClick={() => toggleDetails(booking.id)}>
+                    {expandedId === booking.id
+                      ? "Hide Details"
+                      : "View Details"}
+                  </button>
+                </td>
+              </tr>
+
+              {expandedId === booking.id && (
+                <tr className="details-row">
+                  <td colSpan="7">
+                    <div className="details-box">
+                      <h4>👤 Customer Info</h4>
+                      <p>
+                        <strong>Name:</strong> {booking.customer.name}
+                      </p>
+                      <p>
+                        <strong>Email:</strong> {booking.customer.email}
+                      </p>
+                      <p>
+                        <strong>Phone:</strong> {booking.customer.phone}
+                      </p>
+
+                      <h4>🌍 Package Info</h4>
+                      <p>
+                        <strong>Title:</strong> {booking.travelPackage.title}
+                      </p>
+                      <p>
+                        <strong>Destination:</strong>{" "}
+                        {booking.travelPackage.destination}
+                      </p>
+                      <p>
+                        <strong>Description:</strong>{" "}
+                        {booking.travelPackage.description}
+                      </p>
+                      <p>
+                        <strong>Price:</strong> ₹{booking.travelPackage.price}
+                      </p>
+                      <p>
+                        <strong>Duration:</strong>{" "}
+                        {booking.travelPackage.durationDays} days
+                      </p>
                     </div>
                   </td>
                 </tr>

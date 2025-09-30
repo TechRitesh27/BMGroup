@@ -1,4 +1,27 @@
-/* src/components/Charts.css */
+:root {
+  --bg-panel: #ffffff;
+  --bg-panel-dark: #1e272e;
+  --text-primary: #212529;
+  --text-muted: #888888;
+  --heading-color: #333333;
+  --btn-bg: #2196f3;
+  --btn-bg-hover: #1976d2;
+  --btn-text: #ffffff;
+  --font-size-base: 16px;
+  --font-size-heading: 20px;
+  --border-radius: 8px;
+  --box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-theme {
+  --bg-panel: var(--bg-panel-dark);
+  --text-primary: #ecf0f1;
+  --text-muted: #bdc3c7;
+  --heading-color: #ecf0f1;
+  --btn-bg: #3498db;
+  --btn-bg-hover: #2980b9;
+}
+
 .charts {
   display: flex;
   flex-wrap: wrap;
@@ -8,37 +31,48 @@
 
 .chart-section {
   flex: 1 1 500px;
-  background-color: #fff;
+  background-color: var(--bg-panel);
+  color: var(--text-primary);
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
   min-height: 300px;
   position: relative;
   overflow: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .chart-section h3 {
   margin-bottom: 16px;
-  font-size: 20px;
-  color: #333;
+  font-size: var(--font-size-heading);
+  color: var(--heading-color);
 }
 
 .chart-placeholder {
   font-style: italic;
-  color: #888;
+  color: var(--text-muted);
+  font-size: var(--font-size-base);
 }
 
-.view-btn {
+.view-btn,
+.chart-section button {
   margin-top: 20px;
   padding: 10px 16px;
-  background-color: #2196f3;
-  color: white;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
   border: none;
   border-radius: 4px;
+  font-size: var(--font-size-base);
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.view-btn:hover,
+.chart-section button:hover {
+  background-color: var(--btn-bg-hover);
 }
 
 .chart-container {
-  height: 300px; /* or 400px depending on your layout */
+  height: 300px;
   position: relative;
 }

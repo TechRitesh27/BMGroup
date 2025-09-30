@@ -14,7 +14,6 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
     private String status; // Booked, Cancelled, Completed
@@ -26,6 +25,19 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "travel_package_id")
+    private TravelPackage travelPackage;
+
+    public TravelPackage getTravelPackage() {
+        return travelPackage;
+    }
+
+    public void setTravelPackage(TravelPackage travelPackage) {
+        this.travelPackage = travelPackage;
+    }
+
 
     public Long getId() {
         return id;
@@ -75,7 +87,7 @@ public class Booking {
         this.customer = customer;
     }
 
-    //    @ManyToOne
+//        @ManyToOne
 //    @JoinColumn(name = "travel_package_id")
 //    private TravelPackage travelPackage; // Optional
 }

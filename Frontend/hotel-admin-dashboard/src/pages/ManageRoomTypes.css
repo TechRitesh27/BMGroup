@@ -1,20 +1,43 @@
-/* src/pages/ManageRoomTypes.css */
+:root {
+  --bg-main: #f9f9f9;
+  --bg-main-dark: #1e272e;
+  --text-primary: #212529;
+  --heading-color: #333;
+  --text-danger: #b00020;
+  --bg-danger: #ffe0e0;
+  --border-danger: #f5c2c2;
+  --font-size-lg: 24px;
+  --border-radius: 6px;
+}
+
+body.dark-theme {
+  --bg-main: var(--bg-main-dark);
+  --text-primary: #ecf0f1;
+  --heading-color: #ffffff;
+  --text-danger: #ff6b6b;
+  --bg-danger: #4b0000;
+  --border-danger: #7f1d1d;
+}
+
 .manage-room-types {
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .manage-room-types h2 {
   margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
+  font-size: var(--font-size-lg);
+  color: var(--heading-color);
 }
 
 .error-message {
   margin-bottom: 16px;
   padding: 12px;
-  background-color: #ffe0e0;
-  color: #b00020;
-  border: 1px solid #f5c2c2;
-  border-radius: 4px;
+  background-color: var(--bg-danger);
+  color: var(--text-danger);
+  border: 1px solid var(--border-danger);
+  border-radius: var(--border-radius);
+  font-weight: 500;
 }

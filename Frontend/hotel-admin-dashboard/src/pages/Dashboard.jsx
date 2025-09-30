@@ -65,7 +65,7 @@ const Dashboard = () => {
   };
 
   const handleAddPackage = () => {
-    alert("Add Package modal or form will appear here.");
+    navigate("/packages");
   };
 
   return (

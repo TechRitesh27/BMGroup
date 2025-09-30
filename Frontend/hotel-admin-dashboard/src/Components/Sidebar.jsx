@@ -20,7 +20,7 @@ const Sidebar = () => {
               to="/"
               className={({ isActive }) => (isActive ? "active" : "")}
             >
-              Dashboard
+              📊 Dashboard
             </NavLink>
           </li>
           <li>
@@ -28,7 +28,7 @@ const Sidebar = () => {
               to="/rooms"
               className={({ isActive }) => (isActive ? "active" : "")}
             >
-              Manage Rooms
+              🛏️ Manage Rooms
             </NavLink>
           </li>
           <li>
@@ -36,7 +36,7 @@ const Sidebar = () => {
               to="/room-types"
               className={({ isActive }) => (isActive ? "active" : "")}
             >
-              Manage Room Types
+              🏷️ Room Types
             </NavLink>
           </li>
           <li>
@@ -44,12 +44,23 @@ const Sidebar = () => {
               to="/bookings"
               className={({ isActive }) => (isActive ? "active" : "")}
             >
-              Bookings
+              📅 Bookings
             </NavLink>
           </li>
           <li>
-            <NavLink to="/customers" activeClassName="active">
+            <NavLink
+              to="/customers"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
               👥 Customers
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/packages"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              📦 Packages
             </NavLink>
           </li>
         </ul>
