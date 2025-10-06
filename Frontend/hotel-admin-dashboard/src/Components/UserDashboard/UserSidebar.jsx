@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
 import "./UserSidebar.css";
 
 const UserSidebar = ({ user, setActiveSection, activeSection }) => {
@@ -8,7 +7,7 @@ const UserSidebar = ({ user, setActiveSection, activeSection }) => {
   return (
     <div className={`user-sidebar ${collapsed ? "collapsed" : ""}`}>
       <div className="sidebar-header">
-        {!collapsed && <h2>Hello,👋 {user.name}</h2>}
+        {!collapsed && <h2>Hello, 👋 {user.name}</h2>}
         <button className="toggle-btn" onClick={() => setCollapsed(!collapsed)}>
           {collapsed ? "➡️" : "❌"}
         </button>
@@ -16,50 +15,47 @@ const UserSidebar = ({ user, setActiveSection, activeSection }) => {
 
       <ul className="sidebar-menu">
         <li>
-          <NavLink
-            to="#"
-            className={activeSection === "bookings" ? "active" : ""}
+          <a
+            className={`sidebar-link ${activeSection === "bookings" ? "active" : ""}`}
             onClick={() => setActiveSection("bookings")}
           >
-            📑 My Bookings
-          </NavLink>
+            📑 <span className="label">My Bookings</span>
+          </a>
         </li>
         <li>
-          <NavLink
-            to="#"
-            className={activeSection === "trips" ? "active" : ""}
+          <a
+            className={`sidebar-link ${activeSection === "trips" ? "active" : ""}`}
             onClick={() => setActiveSection("trips")}
           >
-            ✈️ Upcoming Trips
-          </NavLink>
+            ✈️ <span className="label">Upcoming Trips</span>
+          </a>
         </li>
         <li>
-          <NavLink
-            to="#"
-            className={activeSection === "packages" ? "active" : ""}
+          <a
+            className={`sidebar-link ${activeSection === "packages" ? "active" : ""}`}
             onClick={() => setActiveSection("packages")}
           >
-            🧳 Travel Packages
-          </NavLink>
+            🧳 <span className="label">Travel Packages</span>
+          </a>
         </li>
+        {/* Uncomment if needed later
         <li>
-          <NavLink
-            to="#"
-            className={activeSection === "feedback" ? "active" : ""}
+          <a
+            className={`sidebar-link ${activeSection === "feedback" ? "active" : ""}`}
             onClick={() => setActiveSection("feedback")}
           >
-            💬 Feedback
-          </NavLink>
+            💬 <span className="label">Feedback</span>
+          </a>
         </li>
         <li>
-          <NavLink
-            to="#"
-            className={activeSection === "profile" ? "active" : ""}
+          <a
+            className={`sidebar-link ${activeSection === "profile" ? "active" : ""}`}
             onClick={() => setActiveSection("profile")}
           >
-            ⚙️ Profile
-          </NavLink>
+            ⚙️ <span className="label">Profile</span>
+          </a>
         </li>
+        */}
       </ul>
     </div>
   );

@@ -1,29 +1,10 @@
-:root {
-  --sidebar-bg: #2c3e50;
-  --sidebar-bg-dark: #1e272e;
-  --sidebar-text: #000000;
-  --sidebar-text-active: #ffffff;
-  --sidebar-hover: #3e4b5b;
-  --font-size-base: 16px;
-  --font-size-collapsed: 0;
-  --transition-speed: 0.3s;
-  --border-radius: 6px;
-}
-
-body.dark-theme {
-  --sidebar-bg: var(--sidebar-bg-dark);
-  --sidebar-text: #ecf0f1;
-  --sidebar-text-active: #ffffff;
-  --sidebar-hover: #34495e;
-}
-
 .user-sidebar {
   width: 220px;
-  background-color: var(--sidebar-bg);
-  color: var(--sidebar-text);
+  background-color: #cdcdcd;
+  color: #0b0b0b;
   padding: 20px;
   min-height: 100vh;
-  transition: width var(--transition-speed), background-color var(--transition-speed), color var(--transition-speed);
+  transition: width 0.3s ease;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -43,7 +24,7 @@ body.dark-theme {
 
 .sidebar-header h2 {
   font-size: 18px;
-  color: var(--sidebar-text-active);
+  color: #0b0b0b;
   margin: 0;
 }
 
@@ -54,9 +35,10 @@ body.dark-theme {
 .toggle-btn {
   background: none;
   border: none;
-  color: var(--sidebar-text-active);
+  color: #ffffff;
   font-size: 18px;
   cursor: pointer;
+  z-index: 1;
 }
 
 .sidebar-menu {
@@ -69,31 +51,31 @@ body.dark-theme {
   margin-bottom: 16px;
 }
 
-.sidebar-menu a {
-  color: var(--sidebar-text);
+.sidebar-link {
+  color: #0b0b0b;
   text-decoration: none;
-  font-size: var(--font-size-base);
+  font-size: 16px;
   display: block;
   padding: 8px 12px;
-  border-radius: var(--border-radius);
-  transition: background-color var(--transition-speed), color var(--transition-speed);
+  border-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
 }
 
-.sidebar-menu a:hover {
-  background-color: var(--sidebar-hover);
-  color: var(--sidebar-text-active);
+.sidebar-link:hover {
+  background-color: #3e4b5b;
+  color: #ffffff;
 }
 
-.sidebar-menu a.active {
-  color: var(--sidebar-text-active);
+.sidebar-link.active {
+  background-color: #3e4b5b;
+  color: #ffffff;
   font-weight: bold;
-  background-color: var(--sidebar-hover);
 }
 
-.user-sidebar.collapsed a {
-  font-size: var(--font-size-collapsed);
-  padding-left: 0;
+.user-sidebar.collapsed .label {
+  display: none;
 }

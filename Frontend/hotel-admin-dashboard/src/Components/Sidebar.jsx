@@ -49,6 +49,23 @@ const Sidebar = () => {
           </li>
           <li>
             <NavLink
+              to="/bookingbydate"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              📅 Booking for  Date
+            </NavLink>
+          </li>
+          <li>
+              <NavLink
+              to="/bookingcalendar"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              📅 Booking calendar
+            </NavLink>
+          </li>
+          
+          <li>
+            <NavLink
               to="/customers"
               className={({ isActive }) => (isActive ? "active" : "")}
             >

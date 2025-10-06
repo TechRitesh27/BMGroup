@@ -4,8 +4,10 @@ import com.BMGroups.HotelShirdi.DTO.MonthlyBookingStats;
 import com.BMGroups.HotelShirdi.DTO.RoomRevenueStats;
 import com.BMGroups.HotelShirdi.model.*;
 import com.BMGroups.HotelShirdi.repository.*;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,16 +24,19 @@ public class BookingService {
 
     public Booking createBooking(Booking booking) {
         Room room = roomRepository.findById(booking.getRoom().getId()).orElseThrow();
-        if (!room.getStatus().equalsIgnoreCase("Available")) {
-            throw new RuntimeException("Room is not available");
-        }
 
-        room.setStatus("Booked");
-        roomRepository.save(room);
+        List<Booking> existingBookings = bookingRepository.findByRoom(room);
+        for (Booking b : existingBookings) {
+            if (b.getCheckInDate().isBefore(booking.getCheckOutDate()) &&
+                    b.getCheckOutDate().isAfter(booking.getCheckInDate())) {
+                throw new RuntimeException("Room is already booked for the selected dates");
+            }
+        }
 
         booking.setStatus("Booked");
         return bookingRepository.save(booking);
     }
+
 
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
@@ -92,4 +97,33 @@ public class BookingService {
                 .map(row -> new RoomRevenueStats((String) row[0], (Double) row[1]))
                 .collect(Collectors.toList());
     }
+
+//    public void autoCompleteExpiredBookings() {
+//        List<Booking> activeBookings = bookingRepository.findByStatus("Booked");
+//
+//        LocalDate today = LocalDate.now();
+//
+//        for (Booking booking : activeBookings) {
+//            if (booking.getCheckOutDate().isBefore(today)) {
+//                booking.setStatus("Completed");
+//                releaseRoom(booking.getRoom());
+//                bookingRepository.save(booking);
+//            }
+//        }
+//    }
+
+    @Scheduled(cron = "0 0 0 * * ?") // Runs every day at 00:00 (midnight)
+    public void autoCompleteExpiredBookings() {
+        List<Booking> activeBookings = bookingRepository.findByStatus("Booked");
+        LocalDate today = LocalDate.now();
+
+        for (Booking booking : activeBookings) {
+            if (booking.getCheckOutDate().isBefore(today)) {
+                booking.setStatus("Completed");
+                releaseRoom(booking.getRoom());
+                bookingRepository.save(booking);
+            }
+        }
+    }
+
 }

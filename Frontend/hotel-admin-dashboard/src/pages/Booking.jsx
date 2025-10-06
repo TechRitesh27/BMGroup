@@ -13,7 +13,49 @@ const Bookings = () => {
   const [availableRooms, setAvailableRooms] = useState([]);
   const [selectedRoomMap, setSelectedRoomMap] = useState({});
   const [searchName, setSearchName] = useState("");
+  const [searchRoom, setSearchRoom] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
+  const [sortField, setSortField] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
+
+  const exportToCSV = () => {
+    const rows = filteredBookings.map((b) => ({
+      ID: b.id,
+      Customer: b.customer.name,
+      Email: b.customer.email,
+      Phone: b.customer.phone,
+      Type: b.room ? "Room" : "Package",
+      RoomOrPackage: b.room ? b.room.roomNumber : b.travelPackage?.title || "—",
+      CheckIn: b.checkInDate,
+      CheckOut: b.checkOutDate,
+      Status: b.status,
+    }));
+
+    const header = Object.keys(rows[0]);
+    const csvContent = [
+      header.join(","),
+      ...rows.map((r) => header.map((h) => `"${r[h]}"`).join(",")),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `bookings_${new Date().toISOString().split("T")[0]}.csv`;
+    link.click();
+  };
+
+  const getRoomStatus = (roomId) => {
+    const today = new Date();
+    const activeBooking = bookings.find(
+      (b) =>
+        b.room?.id === roomId &&
+        new Date(b.checkInDate) <= today &&
+        new Date(b.checkOutDate) > today
+    );
+    return activeBooking
+      ? `Booked (${activeBooking.checkInDate} to ${activeBooking.checkOutDate})`
+      : "Available";
+  };
 
   const [alerts, setAlerts] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -45,6 +87,24 @@ const Bookings = () => {
   };
 
   const assignRoom = (bookingId, roomId) => {
+    const booking = bookings.find((b) => b.id === bookingId);
+    if (!booking || !roomId) {
+      toast.error("❌ Invalid booking or room selection");
+      return;
+    }
+
+    const isConflict = bookings.some(
+      (b) =>
+        b.room?.id === roomId &&
+        new Date(booking.checkInDate) < new Date(b.checkOutDate) &&
+        new Date(booking.checkOutDate) > new Date(b.checkInDate)
+    );
+
+    if (isConflict) {
+      toast.error("❌ Room is already booked for the selected dates");
+      return;
+    }
+
     axios
       .put(`/api/bookings/${bookingId}/assign-room/${roomId}`)
       .then(() => {
@@ -86,11 +146,31 @@ const Bookings = () => {
       .catch((err) => console.error("Failed to fetch rooms:", err));
   }, []);
 
-  const filteredBookings = bookings.filter(
-    (b) =>
-      b.customer.name.toLowerCase().includes(searchName.toLowerCase()) &&
-      (filterStatus === "" || b.status === filterStatus)
-  );
+  const filteredBookings = bookings
+    .filter(
+      (b) =>
+        b.customer.name.toLowerCase().includes(searchName.toLowerCase()) &&
+        (filterStatus === "" || b.status === filterStatus) &&
+        (searchRoom === "" ||
+          b.room?.roomNumber.toLowerCase().includes(searchRoom.toLowerCase()))
+    )
+    .sort((a, b) => {
+      if (!sortField) return 0;
+      let valA, valB;
+      if (sortField === "checkInDate") {
+        valA = new Date(a.checkInDate);
+        valB = new Date(b.checkInDate);
+      } else if (sortField === "checkOutDate") {
+        valA = new Date(a.checkOutDate);
+        valB = new Date(b.checkOutDate);
+      } else if (sortField === "customerName") {
+        valA = a.customer.name.toLowerCase();
+        valB = b.customer.name.toLowerCase();
+      }
+      if (valA < valB) return sortOrder === "asc" ? -1 : 1;
+      if (valA > valB) return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    });
 
   const roomBookings = filteredBookings.filter((b) => b.room);
   const packageBookings = filteredBookings.filter((b) => b.travelPackage);
@@ -100,6 +180,9 @@ const Bookings = () => {
       <ToastContainer position="top-right" autoClose={3000} />
       <div className="bookings-header">
         <h2>📖 All Bookings</h2>
+        <button className="export-btn" onClick={exportToCSV}>
+        📤 Export Bookings to CSV
+      </button>
         <div
           className="notification-bell"
           onClick={() => setShowDropdown(!showDropdown)}
@@ -127,6 +210,12 @@ const Bookings = () => {
           value={searchName}
           onChange={(e) => setSearchName(e.target.value)}
         />
+        <input
+          type="text"
+          placeholder="Search by room number"
+          value={searchRoom}
+          onChange={(e) => setSearchRoom(e.target.value)}
+        />
         <select
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
@@ -135,6 +224,22 @@ const Bookings = () => {
           <option value="Booked">Booked</option>
           <option value="Completed">Completed</option>
           <option value="Cancelled">Cancelled</option>
+        </select>
+        <select
+          value={sortField}
+          onChange={(e) => setSortField(e.target.value)}
+        >
+          <option value="">Sort By</option>
+          <option value="checkInDate">Check-In Date</option>
+          <option value="checkOutDate">Check-Out Date</option>
+          <option value="customerName">Customer Name</option>
+        </select>
+        <select
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value)}
+        >
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
         </select>
       </div>
 
@@ -214,6 +319,10 @@ const Bookings = () => {
                       <p>
                         <strong>Capacity:</strong>{" "}
                         {booking.room.roomType.capacity}
+                      </p>
+                      <p>
+                        <strong>Status:</strong>{" "}
+                        {getRoomStatus(booking.room.id)}
                       </p>
 
                       <h4>🛏️ Assign Room</h4>

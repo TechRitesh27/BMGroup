@@ -61,5 +61,11 @@ public class BookingController {
         return bookingService.getRevenueStats();
     }
 
+    @GetMapping("/cleanup-expired")
+    public ResponseEntity<String> cleanupExpiredBookings() {
+        bookingService.autoCompleteExpiredBookings();
+        return ResponseEntity.ok("✅ Expired bookings cleaned up");
+    }
+
 
 }

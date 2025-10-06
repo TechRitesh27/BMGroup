@@ -11,6 +11,7 @@ import java.util.List;
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findByCustomerId(Long customerId);
     List<Booking> findByStatus(String status);
+    List<Booking> findByRoom(Room room);
     long countByCheckInDateBetween(LocalDate start, LocalDate end);
     @Query("SELECT FUNCTION('MONTHNAME', b.checkInDate), COUNT(b.id) FROM Booking b GROUP BY FUNCTION('MONTHNAME', b.checkInDate)")
     List<Object[]> countBookingsByMonth();

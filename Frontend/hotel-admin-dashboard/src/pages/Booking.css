@@ -150,3 +150,18 @@ button:hover {
 .details-box p {
   margin: 6px 0;
 }
+
+.export-btn {
+  margin: 1rem 0;
+  padding: 8px 14px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.export-btn:hover {
+  background-color: #1565c0;
+}

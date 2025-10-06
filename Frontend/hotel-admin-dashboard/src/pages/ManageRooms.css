@@ -25,3 +25,13 @@ body.dark-theme {
   font-size: var(--font-size-lg);
   color: var(--heading-color);
 }
+
+.room-search-bar {
+  margin: 1rem 0;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.room-search-bar input {
+  padding: 0.4rem;
+}
