@@ -1,13 +1,40 @@
-/* src/pages/Dashboard.css */
+:root {
+  --bg-main: #f4f6f8;
+  --bg-main-dark: #1e272e;
+  --text-primary: #212529;
+  --text-danger: #b00020;
+  --bg-danger: #ffe0e0;
+  --border-danger: #f5c2c2;
+  --btn-bg: #4caf50;
+  --btn-bg-hover: #388e3c;
+  --btn-text: #ffffff;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --border-radius: 6px;
+  --box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-theme {
+  --bg-main: var(--bg-main-dark);
+  --text-primary: #ecf0f1;
+  --bg-danger: #4b0000;
+  --border-danger: #7f1d1d;
+  --btn-bg: #66bb6a;
+  --btn-bg-hover: #43a047;
+}
+
 .dashboard {
   display: flex;
   min-height: 100vh;
-  background-color: #f4f6f8;
+  background-color: var(--bg-main);
+  transition: background-color 0.3s ease;
 }
 
 .main {
   flex: 1;
   padding: 20px;
+  color: var(--text-primary);
+  transition: color 0.3s ease;
 }
 
 .actions {
@@ -18,19 +45,25 @@
 
 .action-btn {
   padding: 12px 24px;
-  background-color: #4caf50;
-  color: white;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
   border: none;
-  border-radius: 6px;
-  font-size: 16px;
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-base);
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.action-btn:hover {
+  background-color: var(--btn-bg-hover);
 }
 
 .error-message {
   margin-bottom: 20px;
   padding: 12px;
-  background-color: #ffe0e0;
-  color: #b00020;
-  border: 1px solid #f5c2c2;
-  border-radius: 4px;
+  background-color: var(--bg-danger);
+  color: var(--text-danger);
+  border: 1px solid var(--border-danger);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-base);
 }

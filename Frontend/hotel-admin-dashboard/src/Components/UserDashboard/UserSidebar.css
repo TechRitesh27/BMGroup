@@ -1,5 +1,4 @@
-
-.sidebar {
+.user-sidebar {
   width: 220px;
   background-color: #cdcdcd;
   color: #0b0b0b;
@@ -12,7 +11,7 @@
   overflow-x: hidden;
 }
 
-.sidebar.collapsed {
+.user-sidebar.collapsed {
   width: 60px;
   padding: 20px 10px;
 }
@@ -27,57 +26,56 @@
   font-size: 18px;
   color: #0b0b0b;
   margin: 0;
-  color: #0b0b0b;
 }
 
-.sidebar.collapsed .sidebar-header h2 {
+.user-sidebar.collapsed .sidebar-header h2 {
   display: none;
 }
 
-.close-btn {
+.toggle-btn {
   background: none;
   border: none;
-  color: #ffff;
+  color: #ffffff;
   font-size: 18px;
   cursor: pointer;
   z-index: 1;
 }
 
-.sidebar ul {
+.sidebar-menu {
   list-style: none;
   padding: 0;
   margin-top: 20px;
 }
 
-.sidebar li {
+.sidebar-menu li {
   margin-bottom: 16px;
 }
 
-.sidebar a {
+.sidebar-link {
   color: #0b0b0b;
   text-decoration: none;
   font-size: 16px;
   display: block;
   padding: 8px 12px;
   border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s ease, color 0.3s ease;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
 }
 
-.sidebar a:hover {
+.sidebar-link:hover {
   background-color: #3e4b5b;
-  color: #ffff;
+  color: #ffffff;
 }
 
-.sidebar a.active {
-  color: #ffff;
+.sidebar-link.active {
+  background-color: #3e4b5b;
+  color: #ffffff;
   font-weight: bold;
-  background-color: #3e4b5b;
 }
 
-.sidebar.collapsed a {
-  font-size: 0;
-  padding-left: 0;
+.user-sidebar.collapsed .label {
+  display: none;
 }

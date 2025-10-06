@@ -1,10 +1,37 @@
+:root {
+  --bg-main: #f0f2f5;
+  --bg-main-dark: #1e272e;
+  --text-primary: #212529;
+  --heading-color: #333;
+  --font-size-lg: 24px;
+  --border-radius: 6px;
+}
+
+body.dark-theme {
+  --bg-main: var(--bg-main-dark);
+  --text-primary: #ecf0f1;
+  --heading-color: #ffffff;
+}
+
 .manage-rooms {
   padding: 20px;
-  background-color: #f0f2f5;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .manage-rooms h2 {
   margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
+  font-size: var(--font-size-lg);
+  color: var(--heading-color);
+}
+
+.room-search-bar {
+  margin: 1rem 0;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.room-search-bar input {
+  padding: 0.4rem;
 }

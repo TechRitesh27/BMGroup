@@ -49,20 +49,6 @@ const Charts = ({ barData, pieData }) => {
 
   return (
     <div className="charts">
-      {/* Booking Trends */}
-      <div className="chart-section">
-        <h3>📊 Booking Trends</h3>
-        <div className="chart-container">
-          {isBarReady ? (
-            <Bar
-              data={barData}
-              options={{ responsive: true, maintainAspectRatio: false }}
-            />
-          ) : (
-            <p className="chart-placeholder">Loading bar chart...</p>
-          )}
-        </div>
-      </div>
 
       {/* Room Status */}
       <div className="chart-section">

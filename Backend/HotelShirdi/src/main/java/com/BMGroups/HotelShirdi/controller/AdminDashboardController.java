@@ -3,6 +3,7 @@ package com.BMGroups.HotelShirdi.controller;
 import com.BMGroups.HotelShirdi.repository.BookingRepository;
 import com.BMGroups.HotelShirdi.repository.RoomRepository;
 import org.springframework.web.bind.annotation.*;
+import com.BMGroups.HotelShirdi.repository.TravelPackageRepository;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -14,10 +15,14 @@ public class AdminDashboardController {
 
     private final RoomRepository roomRepository;
     private final BookingRepository bookingRepository;
+    private final TravelPackageRepository travelPackageRepo;
 
-    public AdminDashboardController(RoomRepository roomRepository, BookingRepository bookingRepository) {
+
+    public AdminDashboardController(RoomRepository roomRepository, BookingRepository bookingRepository, TravelPackageRepository travelPackageRepo) {
         this.roomRepository = roomRepository;
         this.bookingRepository = bookingRepository;
+        this.travelPackageRepo = travelPackageRepo;
+
     }
 
     @GetMapping
@@ -34,6 +39,7 @@ public class AdminDashboardController {
         stats.put("availableRooms", availableRooms);
         stats.put("totalBookings", totalBookings);
         stats.put("upcomingCheckIns", upcomingCheckIns);
+        stats.put("totalPackages", travelPackageRepo.count());
 
         return stats;
     }

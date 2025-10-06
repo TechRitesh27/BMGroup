@@ -13,9 +13,50 @@ const Bookings = () => {
   const [availableRooms, setAvailableRooms] = useState([]);
   const [selectedRoomMap, setSelectedRoomMap] = useState({});
   const [searchName, setSearchName] = useState("");
+  const [searchRoom, setSearchRoom] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
+  const [sortField, setSortField] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
 
-  // Notifications
+  const exportToCSV = () => {
+    const rows = filteredBookings.map((b) => ({
+      ID: b.id,
+      Customer: b.customer.name,
+      Email: b.customer.email,
+      Phone: b.customer.phone,
+      Type: b.room ? "Room" : "Package",
+      RoomOrPackage: b.room ? b.room.roomNumber : b.travelPackage?.title || "—",
+      CheckIn: b.checkInDate,
+      CheckOut: b.checkOutDate,
+      Status: b.status,
+    }));
+
+    const header = Object.keys(rows[0]);
+    const csvContent = [
+      header.join(","),
+      ...rows.map((r) => header.map((h) => `"${r[h]}"`).join(",")),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `bookings_${new Date().toISOString().split("T")[0]}.csv`;
+    link.click();
+  };
+
+  const getRoomStatus = (roomId) => {
+    const today = new Date();
+    const activeBooking = bookings.find(
+      (b) =>
+        b.room?.id === roomId &&
+        new Date(b.checkInDate) <= today &&
+        new Date(b.checkOutDate) > today
+    );
+    return activeBooking
+      ? `Booked (${activeBooking.checkInDate} to ${activeBooking.checkOutDate})`
+      : "Available";
+  };
+
   const [alerts, setAlerts] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -46,6 +87,24 @@ const Bookings = () => {
   };
 
   const assignRoom = (bookingId, roomId) => {
+    const booking = bookings.find((b) => b.id === bookingId);
+    if (!booking || !roomId) {
+      toast.error("❌ Invalid booking or room selection");
+      return;
+    }
+
+    const isConflict = bookings.some(
+      (b) =>
+        b.room?.id === roomId &&
+        new Date(booking.checkInDate) < new Date(b.checkOutDate) &&
+        new Date(booking.checkOutDate) > new Date(b.checkInDate)
+    );
+
+    if (isConflict) {
+      toast.error("❌ Room is already booked for the selected dates");
+      return;
+    }
+
     axios
       .put(`/api/bookings/${bookingId}/assign-room/${roomId}`)
       .then(() => {
@@ -87,18 +146,47 @@ const Bookings = () => {
       .catch((err) => console.error("Failed to fetch rooms:", err));
   }, []);
 
-  const filteredBookings = bookings.filter(
-    (b) =>
-      b.customer.name.toLowerCase().includes(searchName.toLowerCase()) &&
-      (filterStatus === "" || b.status === filterStatus)
-  );
+  const filteredBookings = bookings
+    .filter(
+      (b) =>
+        b.customer.name.toLowerCase().includes(searchName.toLowerCase()) &&
+        (filterStatus === "" || b.status === filterStatus) &&
+        (searchRoom === "" ||
+          b.room?.roomNumber.toLowerCase().includes(searchRoom.toLowerCase()))
+    )
+    .sort((a, b) => {
+      if (!sortField) return 0;
+      let valA, valB;
+      if (sortField === "checkInDate") {
+        valA = new Date(a.checkInDate);
+        valB = new Date(b.checkInDate);
+      } else if (sortField === "checkOutDate") {
+        valA = new Date(a.checkOutDate);
+        valB = new Date(b.checkOutDate);
+      } else if (sortField === "customerName") {
+        valA = a.customer.name.toLowerCase();
+        valB = b.customer.name.toLowerCase();
+      }
+      if (valA < valB) return sortOrder === "asc" ? -1 : 1;
+      if (valA > valB) return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    });
+
+  const roomBookings = filteredBookings.filter((b) => b.room);
+  const packageBookings = filteredBookings.filter((b) => b.travelPackage);
 
   return (
     <div className="bookings-page">
       <ToastContainer position="top-right" autoClose={3000} />
       <div className="bookings-header">
         <h2>📖 All Bookings</h2>
-        <div className="notification-bell" onClick={() => setShowDropdown(!showDropdown)}>
+        <button className="export-btn" onClick={exportToCSV}>
+        📤 Export Bookings to CSV
+      </button>
+        <div
+          className="notification-bell"
+          onClick={() => setShowDropdown(!showDropdown)}
+        >
           <FaBell />
           {alerts.length > 0 && <span className="badge">{alerts.length}</span>}
           {showDropdown && (
@@ -122,14 +210,41 @@ const Bookings = () => {
           value={searchName}
           onChange={(e) => setSearchName(e.target.value)}
         />
-        <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
+        <input
+          type="text"
+          placeholder="Search by room number"
+          value={searchRoom}
+          onChange={(e) => setSearchRoom(e.target.value)}
+        />
+        <select
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+        >
           <option value="">All Statuses</option>
           <option value="Booked">Booked</option>
           <option value="Completed">Completed</option>
           <option value="Cancelled">Cancelled</option>
         </select>
+        <select
+          value={sortField}
+          onChange={(e) => setSortField(e.target.value)}
+        >
+          <option value="">Sort By</option>
+          <option value="checkInDate">Check-In Date</option>
+          <option value="checkOutDate">Check-Out Date</option>
+          <option value="customerName">Customer Name</option>
+        </select>
+        <select
+          value={sortOrder}
+          onChange={(e) => setSortOrder(e.target.value)}
+        >
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
       </div>
 
+      {/* 🏨 Room Bookings */}
+      <h3>🏨 Room Bookings</h3>
       <table className="bookings-table">
         <thead>
           <tr>
@@ -143,18 +258,20 @@ const Bookings = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredBookings.map((booking) => (
+          {roomBookings.map((booking) => (
             <React.Fragment key={booking.id}>
               <tr>
                 <td>{booking.id}</td>
                 <td>{booking.customer.name}</td>
-                <td>{booking.room?.roomNumber || "Unassigned"}</td>
+                <td>{booking.room.roomNumber}</td>
                 <td>{booking.checkInDate}</td>
                 <td>{booking.checkOutDate}</td>
                 <td>
                   <select
                     value={booking.status}
-                    onChange={(e) => handleStatusChange(booking.id, e.target.value)}
+                    onChange={(e) =>
+                      handleStatusChange(booking.id, e.target.value)
+                    }
                   >
                     <option value="Booked">Booked</option>
                     <option value="Completed">Completed</option>
@@ -163,7 +280,9 @@ const Bookings = () => {
                 </td>
                 <td>
                   <button onClick={() => toggleDetails(booking.id)}>
-                    {expandedId === booking.id ? "Hide Details" : "View Details"}
+                    {expandedId === booking.id
+                      ? "Hide Details"
+                      : "View Details"}
                   </button>
                 </td>
               </tr>
@@ -173,22 +292,38 @@ const Bookings = () => {
                   <td colSpan="7">
                     <div className="details-box">
                       <h4>👤 Customer Info</h4>
-                      <p><strong>Name:</strong> {booking.customer.name}</p>
-                      <p><strong>Email:</strong> {booking.customer.email}</p>
-                      <p><strong>Phone:</strong> {booking.customer.phone}</p>
+                      <p>
+                        <strong>Name:</strong> {booking.customer.name}
+                      </p>
+                      <p>
+                        <strong>Email:</strong> {booking.customer.email}
+                      </p>
+                      <p>
+                        <strong>Phone:</strong> {booking.customer.phone}
+                      </p>
 
                       <h4>🏨 Room Info</h4>
-                      {booking.room ? (
-                        <>
-                          <p><strong>Room Number:</strong> {booking.room.roomNumber}</p>
-                          <p><strong>Type:</strong> {booking.room.roomType.name}</p>
-                          <p><strong>Facilities:</strong> {booking.room.roomType.facilities}</p>
-                          <p><strong>Price:</strong> ₹{booking.room.roomType.price}</p>
-                          <p><strong>Capacity:</strong> {booking.room.roomType.capacity}</p>
-                        </>
-                      ) : (
-                        <p><em>No room assigned yet.</em></p>
-                      )}
+                      <p>
+                        <strong>Room Number:</strong> {booking.room.roomNumber}
+                      </p>
+                      <p>
+                        <strong>Type:</strong> {booking.room.roomType.name}
+                      </p>
+                      <p>
+                        <strong>Facilities:</strong>{" "}
+                        {booking.room.roomType.facilities}
+                      </p>
+                      <p>
+                        <strong>Price:</strong> ₹{booking.room.roomType.price}
+                      </p>
+                      <p>
+                        <strong>Capacity:</strong>{" "}
+                        {booking.room.roomType.capacity}
+                      </p>
+                      <p>
+                        <strong>Status:</strong>{" "}
+                        {getRoomStatus(booking.room.id)}
+                      </p>
 
                       <h4>🛏️ Assign Room</h4>
                       <select
@@ -208,11 +343,100 @@ const Bookings = () => {
                         ))}
                       </select>
                       <button
-                        onClick={() => assignRoom(booking.id, selectedRoomMap[booking.id])}
+                        onClick={() =>
+                          assignRoom(booking.id, selectedRoomMap[booking.id])
+                        }
                         disabled={!selectedRoomMap[booking.id]}
                       >
                         Assign Room
                       </button>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </React.Fragment>
+          ))}
+        </tbody>
+      </table>
+
+      {/* 🌍 Travel Package Bookings */}
+      <h3>🌍 Travel Package Bookings</h3>
+      <table className="bookings-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Package</th>
+            <th>Destination</th>
+            <th>Duration</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {packageBookings.map((booking) => (
+            <React.Fragment key={booking.id}>
+              <tr>
+                <td>{booking.id}</td>
+                <td>{booking.customer.name}</td>
+                <td>{booking.travelPackage.title}</td>
+                <td>{booking.travelPackage.destination}</td>
+                <td>{booking.travelPackage.durationDays} days</td>
+                <td>
+                  <select
+                    value={booking.status}
+                    onChange={(e) =>
+                      handleStatusChange(booking.id, e.target.value)
+                    }
+                  >
+                    <option value="Booked">Booked</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                  </select>
+                </td>
+                <td>
+                  <button onClick={() => toggleDetails(booking.id)}>
+                    {expandedId === booking.id
+                      ? "Hide Details"
+                      : "View Details"}
+                  </button>
+                </td>
+              </tr>
+
+              {expandedId === booking.id && (
+                <tr className="details-row">
+                  <td colSpan="7">
+                    <div className="details-box">
+                      <h4>👤 Customer Info</h4>
+                      <p>
+                        <strong>Name:</strong> {booking.customer.name}
+                      </p>
+                      <p>
+                        <strong>Email:</strong> {booking.customer.email}
+                      </p>
+                      <p>
+                        <strong>Phone:</strong> {booking.customer.phone}
+                      </p>
+
+                      <h4>🌍 Package Info</h4>
+                      <p>
+                        <strong>Title:</strong> {booking.travelPackage.title}
+                      </p>
+                      <p>
+                        <strong>Destination:</strong>{" "}
+                        {booking.travelPackage.destination}
+                      </p>
+                      <p>
+                        <strong>Description:</strong>{" "}
+                        {booking.travelPackage.description}
+                      </p>
+                      <p>
+                        <strong>Price:</strong> ₹{booking.travelPackage.price}
+                      </p>
+                      <p>
+                        <strong>Duration:</strong>{" "}
+                        {booking.travelPackage.durationDays} days
+                      </p>
                     </div>
                   </td>
                 </tr>

@@ -1,25 +1,72 @@
+:root {
+  --bg-main: #f9f9f9;
+  --bg-main-dark: #1e272e;
+  --text-primary: #212529;
+  --text-muted: #555;
+  --text-danger: #d32f2f;
+  --bg-danger: #fdecea;
+  --border-danger: #f5c2c2;
+  --table-bg: #ffffff;
+  --table-header-bg: #f0f0f0;
+  --table-border: #eee;
+  --btn-bg: #2196f3;
+  --btn-bg-hover: #1976d2;
+  --btn-text: #ffffff;
+  --input-bg: #ffffff;
+  --input-border: #ccc;
+  --details-bg: #fafafa;
+  --details-box-text: #444;
+  --details-box-heading: #333;
+  --font-size-base: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 26px;
+  --border-radius: 6px;
+  --box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+body.dark-theme {
+  --bg-main: var(--bg-main-dark);
+  --text-primary: #ecf0f1;
+  --text-muted: #bdc3c7;
+  --text-danger: #ff6b6b;
+  --bg-danger: #4b0000;
+  --border-danger: #7f1d1d;
+  --table-bg: #2c3e50;
+  --table-header-bg: #34495e;
+  --table-border: #3c5a6b;
+  --btn-bg: #3498db;
+  --btn-bg-hover: #2980b9;
+  --input-bg: #34495e;
+  --input-border: #3c5a6b;
+  --details-bg: #2c3e50;
+  --details-box-text: #ecf0f1;
+  --details-box-heading: #ffffff;
+}
+
 .bookings-page {
   padding: 24px;
-  background-color: #f9f9f9;
+  background-color: var(--bg-main);
   font-family: 'Segoe UI', sans-serif;
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .bookings-page h2 {
-  font-size: 26px;
+  font-size: var(--font-size-xl);
   margin-bottom: 20px;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .error-message {
-  color: #d32f2f;
-  background-color: #fdecea;
+  color: var(--text-danger);
+  background-color: var(--bg-danger);
   padding: 12px;
-  border-radius: 6px;
+  border-radius: var(--border-radius);
   margin-bottom: 16px;
   font-weight: 500;
+  border: 1px solid var(--border-danger);
 }
 
-/* Filters */
 .booking-filters {
   display: flex;
   gap: 16px;
@@ -29,77 +76,92 @@
 .booking-filters input,
 .booking-filters select {
   padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-  background-color: #fff;
+  border: 1px solid var(--input-border);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-base);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Table */
 .bookings-table {
   width: 100%;
   border-collapse: collapse;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  background-color: #fff;
+  box-shadow: var(--box-shadow);
+  background-color: var(--table-bg);
+  transition: background-color 0.3s ease;
 }
 
 .bookings-table th,
 .bookings-table td {
   padding: 14px 16px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--table-border);
   text-align: left;
-  font-size: 14px;
+  font-size: var(--font-size-base);
 }
 
 .bookings-table th {
-  background-color: #f0f0f0;
-  color: #555;
+  background-color: var(--table-header-bg);
+  color: var(--text-muted);
   font-weight: 600;
 }
 
-/* Dropdowns */
 select {
   padding: 6px 10px;
   border-radius: 4px;
-  border: 1px solid #ccc;
-  font-size: 13px;
-  background-color: #fff;
+  border: 1px solid var(--input-border);
+  font-size: var(--font-size-sm);
+  background-color: var(--input-bg);
+  color: var(--text-primary);
 }
 
-/* Buttons */
 button {
   padding: 6px 12px;
-  background-color: #2196f3;
-  color: white;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
   border: none;
   border-radius: 4px;
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 button:hover {
-  background-color: #1976d2;
+  background-color: var(--btn-bg-hover);
 }
 
-/* Expanded Details */
 .details-row td {
-  background-color: #fafafa;
+  background-color: var(--details-bg);
   padding: 20px;
 }
 
 .details-box {
-  font-size: 14px;
-  color: #444;
+  font-size: var(--font-size-base);
+  color: var(--details-box-text);
 }
 
 .details-box h4 {
   margin-top: 0;
   margin-bottom: 10px;
-  font-size: 16px;
-  color: #333;
+  font-size: var(--font-size-lg);
+  color: var(--details-box-heading);
 }
 
 .details-box p {
   margin: 6px 0;
+}
+
+.export-btn {
+  margin: 1rem 0;
+  padding: 8px 14px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.export-btn:hover {
+  background-color: #1565c0;
 }

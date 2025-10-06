@@ -47,3 +47,27 @@
   font-style: italic;
   color: #888;
 }
+
+
+/*  */
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.status-badge.available {
+  background-color: #d4f4dd;
+  color: #2e7d32;
+}
+
+.status-badge.occupied {
+  background-color: #ffe0e0;
+  color: #c62828;
+}
+
+.status-badge.reserved {
+  background-color: #e0f0ff;
+  color: #1565c0;
+}
