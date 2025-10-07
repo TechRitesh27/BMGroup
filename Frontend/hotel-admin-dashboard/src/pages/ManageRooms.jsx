@@ -12,6 +12,9 @@ const ManageRooms = () => {
 
   // Searchbar and filters
   const [searchDate, setSearchDate] = useState("");
+  const [searchRoomNumber, setSearchRoomNumber] = useState("");
+  const [searchRoomType, setSearchRoomType] = useState("");
+  const [searchCapacity, setSearchCapacity] = useState("");
 
   const fetchRooms = () => {
     axios
@@ -72,7 +75,24 @@ const ManageRooms = () => {
     return !conflicts;
   };
 
-  const filteredRooms = rooms.filter((room) => isRoomAvailableOnDate(room.id));
+  const filteredRooms = rooms.filter((room) => {
+    const matchesDate = isRoomAvailableOnDate(room.id);
+    const matchesRoomNumber = searchRoomNumber
+      ? room.roomNumber.toLowerCase().includes(searchRoomNumber.toLowerCase())
+      : true;
+    const matchesRoomType = searchRoomType
+      ? room.roomType?.name
+          ?.toLowerCase()
+          .includes(searchRoomType.toLowerCase())
+      : true;
+    const matchesCapacity = searchCapacity
+      ? room.roomType?.capacity >= parseInt(searchCapacity)
+      : true;
+
+    return (
+      matchesDate && matchesRoomNumber && matchesRoomType && matchesCapacity
+    );
+  });
 
   const getRoomStatus = (roomId) => {
     const today = new Date();
@@ -101,11 +121,30 @@ const ManageRooms = () => {
       <RoomForm onSubmit={handleAddOrUpdate} editingRoom={editingRoom} />
 
       <div className="room-search-bar">
-        <label>Search Available Rooms:</label>
+        <label>Search Rooms:</label>
         <input
           type="date"
           value={searchDate}
           onChange={(e) => setSearchDate(e.target.value)}
+          placeholder="Date"
+        />
+        <input
+          type="text"
+          value={searchRoomNumber}
+          onChange={(e) => setSearchRoomNumber(e.target.value)}
+          placeholder="Room Number"
+        />
+        <input
+          type="text"
+          value={searchRoomType}
+          onChange={(e) => setSearchRoomType(e.target.value)}
+          placeholder="Room Type"
+        />
+        <input
+          type="number"
+          value={searchCapacity}
+          onChange={(e) => setSearchCapacity(e.target.value)}
+          placeholder="Min Capacity"
         />
       </div>
       <RoomTable
