@@ -1,4 +1,3 @@
-// src/pages/BookingCalendar.jsx
 import { useEffect, useState } from "react";
 import axios from "axios";
 import FullCalendar from "@fullcalendar/react";
@@ -8,7 +7,8 @@ import "./BookingCalendar.css";
 
 const BookingCalendar = () => {
   const [bookings, setBookings] = useState([]);
-  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [selectedDateBookings, setSelectedDateBookings] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
     axios
@@ -17,37 +17,17 @@ const BookingCalendar = () => {
       .catch((err) => console.error("Failed to fetch bookings:", err));
   }, []);
 
-  const events = bookings.map((b) => ({
-    id: b.id,
-    title: b.room
-      ? `Room ${b.room.roomNumber} - ${b.customer.name}`
-      : `Package - ${b.customer.name}`,
-    start: b.checkInDate,
-    end: b.checkOutDate,
-    backgroundColor:
-      b.status === "Booked"
-        ? "#e53935"
-        : b.status === "Completed"
-        ? "#43a047"
-        : "#1e88e5",
-    borderColor: "transparent",
-    extendedProps: {
-      status: b.status,
-      customer: b.customer,
-      room: b.room,
-      travelPackage: b.travelPackage,
-    },
-  }));
+  const handleDateClick = ({ dateStr }) => {
+    const clickedDate = new Date(dateStr);
+    setSelectedDate(clickedDate.toDateString());
 
-  const handleEventClick = (info) => {
-    const { customer, room, travelPackage, status } = info.event.extendedProps;
-    setSelectedBooking({
-      name: customer.name,
-      status,
-      details: room
-        ? `Room ${room.roomNumber} (${room.roomType.name})`
-        : `Package: ${travelPackage.title}`,
+    const filtered = bookings.filter((b) => {
+      const checkIn = new Date(b.checkInDate);
+      const checkOut = new Date(b.checkOutDate);
+      return checkIn <= clickedDate && checkOut > clickedDate;
     });
+
+    setSelectedDateBookings(filtered);
   };
 
   return (
@@ -56,60 +36,60 @@ const BookingCalendar = () => {
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
-        events={events}
-        eventClick={handleEventClick}
+        firstDay={0} // Sunday start (default is Monday)
+        locale="en-gb" // or "hi" for Hindi month/day names
+        timeZone="Asia/Kolkata"
+        dateClick={handleDateClick}
+        events={[]}
         height="auto"
+        headerToolbar={{
+          left: "prev,next today",
+          center: "title",
+          right: "dayGridMonth",
+        }}
+        dayHeaderFormat={{
+          weekday: "short", // Sun, Mon, Tue
+        }}
+        titleFormat={{
+          month: "long",
+          year: "numeric",
+        }}
       />
 
-      {selectedBooking && (
-        <div
-          style={{
-            marginTop: "1.5rem",
-            backgroundColor: "#fff",
-            padding: "1rem 1.5rem",
-            borderRadius: "10px",
-            boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
-            maxWidth: "450px",
-            width: "100%",
-            textAlign: "center",
-            animation: "fadeIn 0.3s ease-in-out",
-          }}
-        >
-          <h3 style={{ marginBottom: "0.5rem", color: "#1a237e" }}>
-            Booking Details
-          </h3>
-          <p style={{ margin: "0.25rem 0", fontWeight: "600" }}>
-            👤 {selectedBooking.name}
-          </p>
-          <p style={{ margin: "0.25rem 0" }}>
-            🏷️ {selectedBooking.details}
-          </p>
-          <p
-            style={{
-              margin: "0.25rem 0",
-              color:
-                selectedBooking.status === "Booked"
-                  ? "#e53935"
-                  : selectedBooking.status === "Completed"
-                  ? "#43a047"
-                  : "#1e88e5",
-              fontWeight: "600",
-            }}
-          >
-            📌 Status: {selectedBooking.status}
-          </p>
-          <button
-            onClick={() => setSelectedBooking(null)}
-            style={{
-              marginTop: "0.5rem",
-              backgroundColor: "#1976d2",
-              border: "none",
-              padding: "6px 12px",
-              borderRadius: "6px",
-              color: "#fff",
-              cursor: "pointer",
-            }}
-          >
+      {selectedDate && (
+        <div className="booking-details-panel">
+          <h3>📆 Bookings on {selectedDate}</h3>
+
+          {selectedDateBookings.length > 0 ? (
+            <div className="booking-list">
+              {selectedDateBookings.map((b) => (
+                <div key={b.id} className="booking-card">
+                  <div className="booking-header">
+                    <span className="customer-name">👤 {b.customer.name}</span>
+                    <span className={`status-badge ${b.status.toLowerCase()}`}>
+                      {b.status}
+                    </span>
+                  </div>
+                  <div className="booking-body">
+                    {b.room ? (
+                      <p>
+                        🏨 Room {b.room.roomNumber} ({b.room.roomType.name})
+                      </p>
+                    ) : (
+                      <p>🎒 Package: {b.travelPackage.title}</p>
+                    )}
+                    <p>
+                      📅 {b.checkInDate} → {b.checkOutDate}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p>No bookings found for this date.</p>
+          )}
+
+          <button className="close-btn" onClick={() => setSelectedDate(null)}>
             Close
           </button>
         </div>

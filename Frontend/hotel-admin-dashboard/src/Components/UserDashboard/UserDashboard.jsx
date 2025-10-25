@@ -9,7 +9,7 @@ const UserDashboard = () => {
   const [activeSection, setActiveSection] = useState("bookings");
 
   const mockUser = {
-    id: 3,
+    id: 2,
     name: "Ritesh",
     email: "ritesh@example.com",
   };
