@@ -1,0 +1,17 @@
+.sidebar {
+  width: 240px;
+  min-width: 240px;
+  height: 100vh;
+  position: fixed;
+}
+
+.nav-link {
+  color: #333;
+  margin: 0.3rem 0;
+  padding: 0.5rem 1rem;
+}
+
+.nav-link.active {
+  background-color: #e9ecef;
+  font-weight: bold;
+}
