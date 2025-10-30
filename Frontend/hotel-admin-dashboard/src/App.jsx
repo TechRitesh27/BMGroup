@@ -12,7 +12,9 @@ import "react-toastify/dist/ReactToastify.css";
 import UserDashboard from "./Components/UserDashboard/UserDashboard";
 import ManagePackages from "./pages/ManagePackages.jsx";
 import BookingCalendar from "./pages/BookingCalendar.jsx";
-
+import StaffDashboard from "./Components/StaffDashboard/StaffDashboard.jsx";
+import StaffSidebar from "./Components/StaffDashboard/StaffSidebar.jsx";
+import HomePage from "./Components/HomePage/HomePage.jsx";
 function App() {
   return (
     <>
@@ -84,6 +86,8 @@ function App() {
           }
         />
         <Route path="/user-dashboard" element={<UserDashboard />} />
+        <Route path="/staff-dashboard" element={<StaffDashboard />}/>
+        <Route path="/home-page" element={<HomePage/>} />
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} />
     </>
