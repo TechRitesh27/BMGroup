@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./HomePage.css";
-
+import { useNavigate } from "react-router-dom";
+import Login from "../Login/Login.jsx";
 const HomePage = () => {
   const [rooms, setRooms] = useState([]);
   const [filteredRooms, setFilteredRooms] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [roomTypeFilter, setRoomTypeFilter] = useState("All");
+  const [priceFilter, setPriceFilter] = useState("All");
+
   const [showModal, setShowModal] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [formData, setFormData] = useState({
@@ -14,6 +18,7 @@ const HomePage = () => {
     checkIn: "",
     checkOut: "",
   });
+const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -35,19 +40,31 @@ const HomePage = () => {
     });
   }, []);
 
-  // ✅ Filter function
-  const handleSearch = (e) => {
-    const value = e.target.value.toLowerCase();
-    setSearchTerm(value);
+  // ✅ Combined search + filters
+  useEffect(() => {
+    let filtered = rooms.filter((room) => {
+      const matchesSearch =
+        room.roomNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        room.roomType.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        room.status.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const filtered = rooms.filter((room) =>
-      room.roomNumber.toLowerCase().includes(value) ||
-      room.roomType.name.toLowerCase().includes(value) ||
-      room.status.toLowerCase().includes(value)
-    );
+      const matchesType =
+        roomTypeFilter === "All" ||
+        room.roomType.name === roomTypeFilter;
+
+      const matchesPrice =
+        priceFilter === "All" ||
+        (priceFilter === "Low" && room.roomType.price < 3000) ||
+        (priceFilter === "Mid" &&
+          room.roomType.price >= 3000 &&
+          room.roomType.price <= 6000) ||
+        (priceFilter === "High" && room.roomType.price > 6000);
+
+      return matchesSearch && matchesType && matchesPrice;
+    });
 
     setFilteredRooms(filtered);
-  };
+  }, [searchTerm, roomTypeFilter, priceFilter, rooms]);
 
   const openModal = (room) => {
     setSelectedRoom(room);
@@ -71,7 +88,7 @@ const HomePage = () => {
       checkInDate: formData.checkIn,
       checkOutDate: formData.checkOut,
       room: { id: selectedRoom?.id },
-      customer: { id: 1 },
+      customer: { id: 1 }, // temp guest user
     };
 
     try {
@@ -82,6 +99,13 @@ const HomePage = () => {
       console.error("Booking failed:", error);
       alert("Error while booking. Please try again later.");
     }
+  };
+
+  const clearFilters = () => {
+    setSearchTerm("");
+    setRoomTypeFilter("All");
+    setPriceFilter("All");
+    setFilteredRooms(rooms);
   };
 
   return (
@@ -95,9 +119,10 @@ const HomePage = () => {
           <li><a href="#reviews">Reviews</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
-        <button className="nav-btn" onClick={() => openModal({ roomNumber: "Custom" })}>
-          Book Now
-        </button>
+<button className="nav-btn" onClick={() => navigate("/login")}>
+  Login
+</button>
+
       </nav>
 
       {/* ===== Hero Section ===== */}
@@ -123,15 +148,41 @@ const HomePage = () => {
       <section id="rooms" className="room-section animate-on-scroll">
         <h2>Available Rooms</h2>
 
-        {/* ✅ Search Filter Bar */}
-        <div className="room-search">
-          <input
-            type="text"
-            placeholder="Search by room number, type, or status..."
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-          <i className="fas fa-search search-icon"></i>
+        {/* ✅ Search + Filters */}
+        <div className="filter-bar">
+          <div className="room-search">
+            <input
+              type="text"
+              placeholder="Search by room number, type, or status..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <i className="fas fa-search search-icon"></i>
+          </div>
+
+          <select
+            value={roomTypeFilter}
+            onChange={(e) => setRoomTypeFilter(e.target.value)}
+          >
+            <option value="All">All Types</option>
+            <option value="Delux">Delux</option>
+            <option value="Super Delux">Super Delux</option>
+            <option value="Suite">Suite</option>
+          </select>
+
+          <select
+            value={priceFilter}
+            onChange={(e) => setPriceFilter(e.target.value)}
+          >
+            <option value="All">All Prices</option>
+            <option value="Low">Below ₹3000</option>
+            <option value="Mid">₹3000 - ₹6000</option>
+            <option value="High">Above ₹6000</option>
+          </select>
+
+          <button className="clear-btn" onClick={clearFilters}>
+            Clear Filters
+          </button>
         </div>
 
         <div className="room-grid">
