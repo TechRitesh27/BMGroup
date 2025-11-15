@@ -1,0 +1,100 @@
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 20px;
+  overflow: hidden;
+}
+
+/* Blur is applied here, not on container */
+.login-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1920&q=80")
+    center/cover no-repeat;
+  filter: grayscale(60%) blur(6px);
+  z-index: 0;
+}
+
+/* Clean & Sharp Login Box */
+.login-box {
+  position: relative;
+  z-index: 10;        /* ensures it's above blur */
+  background: white;  /* required */
+  padding: 30px;
+  border-radius: 10px;
+  width: 350px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.2);
+}
+
+.login-title {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #003366;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.role-select {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.role-select select {
+  padding: 10px;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.input-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-group input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #cfcfcf;
+  font-size: 15px;
+}
+
+.input-group input:focus {
+  border-color: #0066cc;
+  outline: none;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  background: #0066cc;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 17px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background: #004c99;
+}
+
+.error-msg {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .login-box {
+    width: 100%;
+    padding: 25px;
+  }
+}

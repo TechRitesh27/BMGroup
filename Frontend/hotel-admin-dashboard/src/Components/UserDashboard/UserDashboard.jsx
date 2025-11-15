@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UserSidebar from "./UserSidebar";
 import MyBookings from "./MyBookings";
 import UpcomingTrips from "./UpcomingTrips";
@@ -7,34 +7,49 @@ import "./UserDashboard.css";
 
 const UserDashboard = () => {
   const [activeSection, setActiveSection] = useState("bookings");
+  const [loggedUser, setLoggedUser] = useState(null);
 
-  const mockUser = {
-    id: 2,
-    name: "Ritesh",
-    email: "ritesh@example.com",
-  };
+  // Load session user dynamically
+  useEffect(() => {
+    const session = JSON.parse(sessionStorage.getItem("session"));
+    if (session && session.user) {
+      setLoggedUser(session.user);
+    } else {
+      window.location.href = "/login"; // if no session
+    }
+  }, []);
+
+  if (!loggedUser) return null;
 
   const renderSection = () => {
     switch (activeSection) {
       case "bookings":
-        return <MyBookings user={mockUser} />;
+        return <MyBookings user={loggedUser} />;
       case "trips":
-        return <UpcomingTrips user={mockUser} />;
+        return <UpcomingTrips user={loggedUser} />;
       case "packages":
-        return <TravelPackages user={mockUser} />;
+        return <TravelPackages user={loggedUser} />;
       default:
-        return <MyBookings user={mockUser} />;
+        return <MyBookings user={loggedUser} />;
     }
   };
 
   return (
     <div className="user-dashboard">
       <UserSidebar
-        user={mockUser}
+        user={loggedUser}
         setActiveSection={setActiveSection}
         activeSection={activeSection}
       />
-      <div className="dashboard-content">{renderSection()}</div>
+
+      {/* Greeting added dynamically */}
+      <div className="dashboard-content">
+        <h2 style={{ marginBottom: "15px", color: "#003366" }}>
+          Hi, {loggedUser.name}
+        </h2>
+
+        {renderSection()}
+      </div>
     </div>
   );
 };
