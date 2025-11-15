@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./UserSidebar.css";
-
+import HomePage from "../HomePage/HomePage.jsx";
 const UserSidebar = ({ user, setActiveSection, activeSection }) => {
   const [collapsed, setCollapsed] = useState(false);
 
@@ -38,6 +38,19 @@ const UserSidebar = ({ user, setActiveSection, activeSection }) => {
             🧳 <span className="label">Travel Packages</span>
           </a>
         </li>
+<li>
+  <a
+    className={`sidebar-link ${activeSection === "logout" ? "active" : ""}`}
+    onClick={() => {
+      sessionStorage.removeItem("session");
+      window.location.href = "/";   // redirect to homepage route
+    }}
+  >
+    <span className="label">LogOut</span>
+  </a>
+</li>
+
+
         {/* Uncomment if needed later
         <li>
           <a

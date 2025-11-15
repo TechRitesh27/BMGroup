@@ -15,14 +15,19 @@ const Sidebar = () => {
       </div>
       {!collapsed && (
         <ul>
-          <li>
-            <NavLink
-              to="/"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              📊 Dashboard
-            </NavLink>
-          </li>
+        <li>
+  <NavLink
+    to={
+      JSON.parse(localStorage.getItem("loggedUser"))?.role === "admin"
+        ? "/dashboard" 
+        : "/user"
+    }
+    className={({ isActive }) => (isActive ? "active" : "")}
+  >
+    📊 Dashboard
+  </NavLink>
+</li>
+
           <li>
             <NavLink
               to="/rooms"
@@ -78,6 +83,14 @@ const Sidebar = () => {
               className={({ isActive }) => (isActive ? "active" : "")}
             >
               📦 Packages
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/login"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+               Logout
             </NavLink>
           </li>
         </ul>

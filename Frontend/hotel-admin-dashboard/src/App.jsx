@@ -15,6 +15,7 @@ import BookingCalendar from "./pages/BookingCalendar.jsx";
 import StaffDashboard from "./Components/StaffDashboard/StaffDashboard.jsx";
 import StaffSidebar from "./Components/StaffDashboard/StaffSidebar.jsx";
 import HomePage from "./Components/HomePage/HomePage.jsx";
+import Login from "./Components/Login/Login.jsx";
 function App() {
   return (
     <>
@@ -22,9 +23,9 @@ function App() {
         <Route
           path="/"
           element={
-            <AdminLayout>
-              <Dashboard />
-            </AdminLayout>
+           
+              <HomePage />
+            
           }
         />
         <Route
@@ -85,6 +86,9 @@ function App() {
             </AdminLayout>
           }
         />
+        <Route path="/login" element={<Login />} />
+        <Route path="/Dashboard" element={
+          <AdminLayout><Dashboard /></AdminLayout>} />
         <Route path="/user-dashboard" element={<UserDashboard />} />
         <Route path="/staff-dashboard" element={<StaffDashboard />}/>
         <Route path="/home-page" element={<HomePage/>} />
