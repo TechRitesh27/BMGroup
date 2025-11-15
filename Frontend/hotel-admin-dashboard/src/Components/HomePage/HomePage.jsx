@@ -88,7 +88,7 @@ const HomePage = () => {
     <div className="homepage-container">
       {/* ===== Navbar ===== */}
       <nav className="navbar">
-        <div className="nav-logo">HotelEase</div>
+        <div className="nav-logo">BM Group of Hotels</div>
         <ul className="nav-links">
           <li><a href="#rooms">Rooms</a></li>
           <li><a href="#features">Features</a></li>
@@ -115,8 +115,8 @@ const HomePage = () => {
       {/* ===== Quick Info Bar ===== */}
       <div className="quick-info animate-on-scroll">
         <div><i className="fas fa-map-marker-alt"></i> Shirdi, Maharashtra</div>
-        <div><i className="fas fa-phone"></i> +91-9876543210</div>
-        <div><i className="fas fa-clock"></i> 24/7 Service</div>
+        <div><i className="fas fa-phone"></i> +91-7517541081</div>
+        <div><i className="fas fa-clock"></i> 24/7 Available</div>
       </div>
 
       {/* ===== Rooms Section ===== */}

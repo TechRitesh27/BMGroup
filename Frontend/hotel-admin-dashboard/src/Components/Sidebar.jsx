@@ -1,87 +1,43 @@
+// Sidebar.jsx
 import { NavLink } from "react-router-dom";
 import "./Sidebar.css";
-import { useState } from "react";
 
-const Sidebar = () => {
-  const [collapsed, setCollapsed] = useState(false);
+const Sidebar = ({ collapsed, toggleSidebar }) => {
+  const navItems = [
+    { to: "/", icon: "📊", label: "Dashboard" },
+    { to: "/rooms", icon: "🛏️", label: "Manage Rooms" },
+    { to: "/packages", icon: "📦", label: "Packages" },
+    { to: "/bookings", icon: "📅", label: "Bookings" },
+    { to: "/room-types", icon: "🏷️", label: "Room Types" },
+    // { to: "/bookingbydate", icon: "📅", label: "Booking for Date" },
+    { to: "/bookingcalendar", icon: "📅", label: "Booking Calendar" },
+    { to: "/customers", icon: "👥", label: "Customers" },
+    
+  ];
 
   return (
     <div className={`sidebar ${collapsed ? "collapsed" : ""}`}>
       <div className="sidebar-header">
-        <h2>Smart Hotel Admin</h2>
-        <button className="close-btn" onClick={() => setCollapsed(!collapsed)}>
+        {!collapsed && <h2>Smart Hotel Admin</h2>}
+        <button className="close-btn" onClick={toggleSidebar}>
           {collapsed ? "➡️" : "❌"}
         </button>
       </div>
-      {!collapsed && (
-        <ul>
-          <li>
+
+      <ul>
+        {navItems.map(({ to, icon, label }) => (
+          <li key={to}>
             <NavLink
-              to="/"
+              to={to}
               className={({ isActive }) => (isActive ? "active" : "")}
+              data-label={label}
             >
-              📊 Dashboard
+              <span className="icon">{icon}</span>
+              <span className="label">{label}</span>
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to="/rooms"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              🛏️ Manage Rooms
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/room-types"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              🏷️ Room Types
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/bookings"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              📅 Bookings
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/bookingbydate"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              📅 Booking for  Date
-            </NavLink>
-          </li>
-          <li>
-              <NavLink
-              to="/bookingcalendar"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              📅 Booking calendar
-            </NavLink>
-          </li>
-          
-          <li>
-            <NavLink
-              to="/customers"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              👥 Customers
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/packages"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              📦 Packages
-            </NavLink>
-          </li>
-        </ul>
-      )}
+        ))}
+      </ul>
     </div>
   );
 };

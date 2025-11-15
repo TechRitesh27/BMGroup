@@ -1,15 +1,16 @@
-
 .sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
   width: 220px;
   background-color: #cdcdcd;
-  color: #0b0b0b;
   padding: 20px;
-  min-height: 100vh;
   transition: width 0.3s ease;
+  z-index: 100;
   display: flex;
   flex-direction: column;
-  position: relative;
-  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .sidebar.collapsed {
@@ -27,20 +28,14 @@
   font-size: 18px;
   color: #0b0b0b;
   margin: 0;
-  color: #0b0b0b;
-}
-
-.sidebar.collapsed .sidebar-header h2 {
-  display: none;
 }
 
 .close-btn {
   background: none;
   border: none;
-  color: #ffff;
+  color: #0b0b0b;
   font-size: 18px;
   cursor: pointer;
-  z-index: 1;
 }
 
 .sidebar ul {
@@ -57,27 +52,66 @@
   color: #0b0b0b;
   text-decoration: none;
   font-size: 16px;
-  display: block;
+  display: flex;
+  align-items: center;
   padding: 8px 12px;
   border-radius: 4px;
   transition: background-color 0.3s, color 0.3s;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .sidebar a:hover {
   background-color: #3e4b5b;
-  color: #ffff;
+  color: #fff;
 }
 
 .sidebar a.active {
-  color: #ffff;
+  color: #fff;
   font-weight: bold;
   background-color: #3e4b5b;
 }
 
+.icon {
+  font-size: 18px;
+  margin-right: 8px;
+}
+
+.label {
+  transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed .label {
+  display: none;
+}
+
+/* Optional: Tooltip on hover when collapsed */
 .sidebar.collapsed a {
-  font-size: 0;
-  padding-left: 0;
+  position: relative;
+}
+
+.sidebar.collapsed a:hover::after {
+  content: attr(data-label);
+  position: absolute;
+  left: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #3e4b5b;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  z-index: 10;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: absolute;
+    z-index: 200;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+  }
 }
