@@ -13,8 +13,10 @@
 }
 
 .sidebar.collapsed {
-  width: 60px;
-  padding: 20px 10px;
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: transparent; /* optional */
 }
 
 .sidebar-header {
@@ -37,12 +39,30 @@
 .close-btn {
   background: none;
   border: none;
-  color: #ffff;
-  font-size: 18px;
+  color: #fff;
+  font-size: 15px;
   cursor: pointer;
-  z-index: 1;
+  position: absolute;
+  top: 0px;
+  right: 3px;    /* original position */
+  transition: top 0.3s ease, right 0.3s ease;
+  z-index: 20;
 }
-
+.close-btn:focus,
+.close-btn:active {
+  outline: none;
+  box-shadow: none;
+  background: none;
+}
+.sidebar.collapsed .close-btn {
+  background: #cdcdcd;        /* BACKGROUND RETURNS */
+  padding: 8px;
+  border-radius: 6px;
+  color: #000; 
+  top: 50px;  /* only this changes → button goes DOWN */
+  right: 160px;
+font-size: 25px;
+}
 .sidebar ul {
   list-style: none;
   padding: 0;
