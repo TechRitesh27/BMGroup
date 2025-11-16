@@ -8,12 +8,12 @@ const AdminLayout = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <div className="admin-layout">
+    <div className={`admin-layout ${collapsed ? "collapsed" : ""}`}>
 
       {/* Sidebar */}
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
 
-      {/* Main Content Area */}
+      {/* Main Content */}
       <div className={`main-content ${collapsed ? "collapsed" : ""}`}>
         <Header />
         <div className="page-content">{children}</div>

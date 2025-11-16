@@ -64,11 +64,18 @@ public class TravelPackageService {
 
     public TravelPackage updatePackage(Long id, TravelPackage updated) {
         TravelPackage pkg = repo.findById(id).orElseThrow();
+
         pkg.setTitle(updated.getTitle());
+        pkg.setStartLocation(updated.getStartLocation());
+        pkg.setEndLocation(updated.getEndLocation());
         pkg.setDestination(updated.getDestination());
         pkg.setDescription(updated.getDescription());
         pkg.setPrice(updated.getPrice());
         pkg.setDurationDays(updated.getDurationDays());
+        pkg.setRouteStops(updated.getRouteStops());
+        pkg.setItinerary(updated.getItinerary());
+        pkg.setHighlights(updated.getHighlights());
+
         return repo.save(pkg);
     }
 

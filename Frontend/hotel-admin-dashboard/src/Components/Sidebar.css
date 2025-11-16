@@ -1,22 +1,23 @@
-
 .sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
   width: 220px;
   background-color: #cdcdcd;
-  color: #0b0b0b;
   padding: 20px;
-  min-height: 100vh;
   transition: width 0.3s ease;
+  z-index: 100;
   display: flex;
   flex-direction: column;
-  position: relative;
-  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .sidebar.collapsed {
   width: 0;
   padding: 0;
   overflow: hidden;
-  background-color: transparent; /* optional */
+  background-color: transparent;
 }
 
 .sidebar-header {
@@ -29,13 +30,9 @@
   font-size: 18px;
   color: #0b0b0b;
   margin: 0;
-  color: #0b0b0b;
 }
 
-.sidebar.collapsed .sidebar-header h2 {
-  display: none;
-}
-
+/* KEEPING PRANJAL'S CLOSE BUTTON CODE */
 .close-btn {
   background: none;
   border: none;
@@ -44,25 +41,29 @@
   cursor: pointer;
   position: absolute;
   top: 0px;
-  right: 3px;    /* original position */
+  right: 3px; /* original position */
   transition: top 0.3s ease, right 0.3s ease;
   z-index: 20;
 }
+
 .close-btn:focus,
 .close-btn:active {
   outline: none;
   box-shadow: none;
   background: none;
 }
+
+/* PRANJAL'S COLLAPSED BEHAVIOR */
 .sidebar.collapsed .close-btn {
-  background: #cdcdcd;        /* BACKGROUND RETURNS */
+  background: #cdcdcd; /* background RETURNS after collapse */
   padding: 8px;
   border-radius: 6px;
-  color: #000; 
-  top: 50px;  /* only this changes → button goes DOWN */
-  right: 160px;
-font-size: 25px;
+  color: #000;
+  top: 50px; /* move DOWN */
+  right: 160px; /* move RIGHT */
+  font-size: 25px;
 }
+
 .sidebar ul {
   list-style: none;
   padding: 0;
@@ -77,27 +78,66 @@ font-size: 25px;
   color: #0b0b0b;
   text-decoration: none;
   font-size: 16px;
-  display: block;
+  display: flex;
+  align-items: center;
   padding: 8px 12px;
   border-radius: 4px;
   transition: background-color 0.3s, color 0.3s;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .sidebar a:hover {
   background-color: #3e4b5b;
-  color: #ffff;
+  color: #fff;
 }
 
 .sidebar a.active {
-  color: #ffff;
+  color: #fff;
   font-weight: bold;
   background-color: #3e4b5b;
 }
 
+.icon {
+  font-size: 18px;
+  margin-right: 8px;
+}
+
+.label {
+  transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed .label {
+  display: none;
+}
+
+/* Tooltip when collapsed */
 .sidebar.collapsed a {
-  font-size: 0;
-  padding-left: 0;
+  position: relative;
+}
+
+.sidebar.collapsed a:hover::after {
+  content: attr(data-label);
+  position: absolute;
+  left: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #3e4b5b;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  z-index: 10;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: absolute;
+    z-index: 200;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+  }
 }

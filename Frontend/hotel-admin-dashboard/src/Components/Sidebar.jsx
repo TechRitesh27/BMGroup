@@ -1,13 +1,27 @@
+// Sidebar.jsx
 import { NavLink } from "react-router-dom";
 import "./Sidebar.css";
 
 const Sidebar = ({ collapsed, setCollapsed }) => {
+  // MAIN BRANCH NAV ITEMS (KEPT)
+  const navItems = [
+    { to: "/", icon: "📊", label: "Dashboard" },
+    { to: "/rooms", icon: "🛏️", label: "Manage Rooms" },
+    { to: "/packages", icon: "📦", label: "Packages" },
+    { to: "/bookings", icon: "📅", label: "Bookings" },
+    { to: "/room-types", icon: "🏷️", label: "Room Types" },
+    { to: "/bookingcalendar", icon: "📅", label: "Booking Calendar" },
+    { to: "/customers", icon: "👥", label: "Customers" },
+  ];
+
   return (
     <div className={`sidebar ${collapsed ? "collapsed" : ""}`}>
-
+      
       <div className="sidebar-header">
+        {/* TITLE visible only when NOT collapsed */}
         {!collapsed && <h2>Smart Hotel Admin</h2>}
 
+        {/* PRANJAL'S COLLAPSE BUTTON (KEEP THIS) */}
         <button
           className="close-btn"
           onClick={() => setCollapsed(!collapsed)}
@@ -16,30 +30,28 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
         </button>
       </div>
 
-      {!collapsed && (
-        <ul>
-          <li>
+      {/* MAIN NAVIGATION (KEPT) */}
+      <ul>
+        {navItems.map(({ to, icon, label }) => (
+          <li key={to}>
             <NavLink
-              to={
-                JSON.parse(localStorage.getItem("loggedUser"))?.role === "admin"
-                  ? "/dashboard"
-                  : "/user"
-              }
+              to={to}
+              className={({ isActive }) => (isActive ? "active" : "")}
+              data-label={label}
             >
-              📊 Dashboard
+              <span className="icon">{icon}</span>
+              {/* label hides on collapse automatically via CSS */}
+              <span className="label">{label}</span>
             </NavLink>
           </li>
+        ))}
 
-          <li><NavLink to="/rooms">🛏️ Manage Rooms</NavLink></li>
-          <li><NavLink to="/room-types">🏷️ Room Types</NavLink></li>
-          <li><NavLink to="/bookings">📅 Bookings</NavLink></li>
-          <li><NavLink to="/bookingbydate">📅 Booking for Date</NavLink></li>
-          <li><NavLink to="/bookingcalendar">📅 Booking Calendar</NavLink></li>
-          <li><NavLink to="/customers">👥 Customers</NavLink></li>
-          <li><NavLink to="/packages">📦 Packages</NavLink></li>
-          <li><NavLink to="/login">Logout</NavLink></li>
-        </ul>
-      )}
+        {/* Logout added manually like Pranjal had */}
+        <li>
+          <NavLink to="/login">Logout</NavLink>
+        </li>
+      </ul>
+
     </div>
   );
 };
