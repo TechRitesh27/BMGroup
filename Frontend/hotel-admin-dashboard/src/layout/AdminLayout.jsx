@@ -1,7 +1,7 @@
-// AdminLayout.jsx
+// src/layout/AdminLayout.jsx
 import { useState } from "react";
-import Sidebar from "../Components/Sidebar.jsx";
-import Header from "../Components/Header.jsx";
+import Sidebar from "../Components/Sidebar";
+import Header from "../Components/Header";
 import "./AdminLayout.css";
 
 const AdminLayout = ({ children }) => {
@@ -9,14 +9,16 @@ const AdminLayout = ({ children }) => {
 
   return (
     <div className={`admin-layout ${collapsed ? "collapsed" : ""}`}>
-      <Sidebar
-        collapsed={collapsed}
-        toggleSidebar={() => setCollapsed(!collapsed)}
-      />
-      <div className="main-content">
+
+      {/* Sidebar */}
+      <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
+
+      {/* Main Content */}
+      <div className={`main-content ${collapsed ? "collapsed" : ""}`}>
         <Header />
         <div className="page-content">{children}</div>
       </div>
+
     </div>
   );
 };
