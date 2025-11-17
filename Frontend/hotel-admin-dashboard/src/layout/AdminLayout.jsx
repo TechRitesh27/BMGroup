@@ -9,7 +9,7 @@ const AdminLayout = ({ children }) => {
 
   return (
     <div className="admin-layout">
-
+      
       {/* Sidebar */}
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
 

@@ -4,8 +4,8 @@ import "./Sidebar.css";
 const Sidebar = ({ collapsed, setCollapsed }) => {
   return (
     <div className={`sidebar ${collapsed ? "collapsed" : ""}`}>
-
       <div className="sidebar-header">
+        {/* TITLE visible only when NOT collapsed */}
         {!collapsed && <h2>Smart Hotel Admin</h2>}
 
         <button
