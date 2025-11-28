@@ -7,7 +7,7 @@ const UserSidebar = ({ user, setActiveSection, activeSection }) => {
   return (
     <div className={`user-sidebar ${collapsed ? "collapsed" : ""}`}>
       <div className="sidebar-header">
-        {!collapsed && <h2>Hello, 👋 {user.name}</h2>}
+        {!collapsed && <h2>Dashboard</h2>}
         <button className="toggle-btn" onClick={() => setCollapsed(!collapsed)}>
           {collapsed ? "➡️" : "❌"}
         </button>
