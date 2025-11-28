@@ -30,7 +30,7 @@ export default function StaffDashboard() {
   // Fetch Customers API
   const fetchCustomers = async () => {
     try {
-      const res = await fetch("http://localhost:8081/api/customers");
+      const res = await fetch("/api/customers");
       const data = await res.json();
       setCustomerCount(data.length || 0);
     } catch (error) {
@@ -41,7 +41,7 @@ export default function StaffDashboard() {
   // Fetch Bookings API
   const fetchBookings = async () => {
     try {
-      const res = await fetch("http://localhost:8081/api/bookings");
+      const res = await fetch("/api/bookings");
       const data = await res.json();
       setBookingCount(data.length || 0);
       setRecentBookings(data.slice(0, 5));

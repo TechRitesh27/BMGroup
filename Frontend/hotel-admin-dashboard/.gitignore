@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+# Vite configuration files
+vite.config.js
+vite.config.ts
+
+
+.cache/
+vite.cache/
