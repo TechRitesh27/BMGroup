@@ -50,6 +50,14 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             {!collapsed && <span className="label">Bookings</span>}
           </NavLink>
         </li>
+
+        <li>
+          <NavLink to="/bookingcalendar" className="sidebar-link">
+            <span className="icon">📅</span>
+            {!collapsed && <span className="label">Booking Calendar</span>}
+          </NavLink>
+        </li>
+
         <li>
           <NavLink to="/customers" className="sidebar-link">
             <span className="icon">👥</span>

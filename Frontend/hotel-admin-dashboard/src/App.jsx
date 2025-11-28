@@ -60,14 +60,6 @@ function App() {
             </AdminLayout>
           }
         />
-        <Route
-          path="/bookingbydate"
-          element={
-            <AdminLayout>
-              <BookingsByDate />
-            </AdminLayout>
-          }
-        />
 
         <Route
           path="/bookingcalendar"
