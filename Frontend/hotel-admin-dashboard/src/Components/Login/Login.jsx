@@ -53,7 +53,7 @@ const Login = () => {
             user: { name: "Admin" },
           });
 
-          window.location.href = "/Dashboard";
+          window.location.href = "/dashboard";
         } else {
           setError("Invalid admin credentials");
         }

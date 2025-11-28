@@ -1,108 +1,103 @@
-.sidebar {
-  width: 220px;
-  background-color: #cdcdcd;
-  color: #0b0b0b;
+/* ========== SIDEBAR MAIN STYLING ========== */
+.admin-sidebar {
+  width: 240px;
+  background: #1e1e2f;
+  color: #fff;
+  height: 100vh;
   padding: 20px;
-  min-height: 100vh;
-  transition: width 0.3s ease;
+  transition: width 0.3s ease, padding 0.3s ease;
   display: flex;
   flex-direction: column;
-  position: relative;
-  overflow-x: hidden;
-}
-
-.sidebar.collapsed {
-  width: 0;
-  padding: 0;
   overflow: hidden;
-  background-color: transparent; /* optional */
 }
 
+/* Collapsed Sidebar */
+.admin-sidebar.collapsed {
+  width: 70px;
+  padding: 20px 10px;
+}
+
+/* ========== SIDEBAR HEADER ========== */
 .sidebar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 25px;
 }
 
 .sidebar-header h2 {
   font-size: 18px;
-  color: #0b0b0b;
   margin: 0;
+  font-weight: 600;
+  white-space: nowrap;
+  color: white;
 }
 
-.sidebar.collapsed .sidebar-header h2 {
+/* Toggle Button */
+.toggle-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+  transition: transform 0.3s ease;
+}
+
+.toggle-btn:hover {
+  transform: scale(1.1);
+}
+
+/* ========== MENU LIST ========== */
+.sidebar-menu {
+  list-style: none; /* removes bullets */
+  padding: 0;
+  margin: 0;
+  flex: 1;
+}
+
+.sidebar-menu li {
+  margin-bottom: 12px;
+  list-style: none; /* just in case */
+}
+
+/* Sidebar link */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+  font-size: 15px;
+  background: transparent;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-link.active {
+  background: #4a4aff;
+}
+
+/* ========== LABEL HANDLING FOR COLLAPSE ========== */
+.admin-sidebar.collapsed .label {
   display: none;
 }
 
-/* CLOSE BUTTON */
-.close-btn {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 15px;
-  cursor: pointer;
-  position: absolute;
-  top: 0px;
-  right: 3px; /* original position */
-  transition: top 0.3s ease, right 0.3s ease;
-  z-index: 20;
-  height: 24px;
-  width: 24px;
-  padding: 0;
+.admin-sidebar.collapsed .sidebar-link {
+  justify-content: center;
 }
 
-.close-btn:focus,
-.close-btn:active {
-  outline: none;
-  box-shadow: none;
-  background: none;
+/* ========== LOGOUT STYLING ========== */
+.logout-btn {
+  color: #ff6b6b !important;
 }
 
-.sidebar.collapsed .close-btn {
-  /* background: #cdcdcd;  */
-  padding: 8px;
-  border-radius: 6px;
-  color: #000;
-  top: 50px; /* button moves down */
-  right: 160px;
-  font-size: 25px;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 20px;
-}
-
-.sidebar li {
-  margin-bottom: 16px;
-}
-
-.sidebar a {
-  color: #0b0b0b;
-  text-decoration: none;
-  font-size: 16px;
-  display: block;
-  padding: 8px 12px;
-  border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.sidebar a:hover {
-  background-color: #3e4b5b;
-  color: #ffff;
-}
-
-.sidebar a.active {
-  color: #ffff;
-  font-weight: bold;
-  background-color: #3e4b5b;
-}
-
-.sidebar.collapsed a {
-  font-size: 0;
-  padding-left: 0;
+.logout-btn:hover {
+  background: rgba(255, 100, 100, 0.2);
 }

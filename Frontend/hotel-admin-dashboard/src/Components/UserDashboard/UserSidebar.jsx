@@ -46,7 +46,7 @@ const UserSidebar = ({ user, setActiveSection, activeSection }) => {
       window.location.href = "/";   // redirect to homepage route
     }}
   >
-    <span className="label">LogOut</span>
+   🔓 <span className="label">LogOut</span>
   </a>
 </li>
 
