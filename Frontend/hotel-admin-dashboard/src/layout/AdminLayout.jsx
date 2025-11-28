@@ -9,16 +9,20 @@ const AdminLayout = ({ children }) => {
 
   return (
     <div className="admin-layout">
-      
       {/* Sidebar */}
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
 
       {/* Main Content Area */}
-      <div className={`main-content ${collapsed ? "collapsed" : ""}`}>
+      <div
+        className="main-content"
+        style={{
+          marginLeft: collapsed ? "70px" : "240px",
+          transition: "margin-left 0.3s",
+        }}
+      >
         <Header />
         <div className="page-content">{children}</div>
       </div>
-
     </div>
   );
 };
