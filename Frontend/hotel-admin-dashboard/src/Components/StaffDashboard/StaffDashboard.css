@@ -65,6 +65,7 @@
 
 .table-card th,
 .table-card td {
+  text-align: center;
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }

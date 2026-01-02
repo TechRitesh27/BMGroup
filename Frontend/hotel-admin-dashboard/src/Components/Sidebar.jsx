@@ -71,7 +71,7 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
           </NavLink>
         </li>
         <li onClick={handleLogout} className="sidebar-link logout-btn">
-          <span className="icon">⬅️</span>
+          <span className="icon">🔓</span>
           {!collapsed && <span className="label">Logout</span>}
         </li>
         
