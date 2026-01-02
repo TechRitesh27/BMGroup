@@ -16,6 +16,10 @@ import StaffDashboard from "./Components/StaffDashboard/StaffDashboard.jsx";
 import StaffSidebar from "./Components/StaffDashboard/StaffSidebar.jsx";
 import HomePage from "./Components/HomePage/HomePage.jsx";
 import Login from "./Components/Login/Login.jsx";
+import StaffManageBookings from "./Components/StaffDashboard/staff/staff_managebookings.jsx";
+import StaffServiceRequest from "./Components/StaffDashboard/staff/staffSeviceRequest.jsx";
+import StaffInvoiceManagement from "./Components/StaffDashboard/staff/staffInvoiceManagement.jsx";
+
 function App() {
   return (
     <>
@@ -84,6 +88,10 @@ function App() {
         <Route path="/user-dashboard" element={<UserDashboard />} />
         <Route path="/staff-dashboard" element={<StaffDashboard />}/>
         <Route path="/home-page" element={<HomePage/>} />
+        
+<Route path="/staff/bookings" element={<StaffManageBookings />} />
+<Route path="/staff/requests" element={<StaffServiceRequest />} />
+<Route path="/staff/invoices" element={<StaffInvoiceManagement />} />
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} />
     </>

@@ -2,25 +2,6 @@ import React, { useEffect, useState } from "react";
 import StaffSidebar from "./StaffSidebar";
 import "./StaffDashboard.css";
 
-import { Bar, Pie } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  ArcElement,
-  Tooltip,
-  Legend
-} from "chart.js";
-
-ChartJS.register(
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  ArcElement,
-  Tooltip,
-  Legend
-);
 
 export default function StaffDashboard() {
   const [customerCount, setCustomerCount] = useState(0);
@@ -55,32 +36,6 @@ export default function StaffDashboard() {
     fetchBookings();
   }, []);
 
-  // Bar Chart
-  const occupancyData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May"],
-    datasets: [
-      {
-        label: "Occupancy (%)",
-        data: [60, 72, 68, 80, 75],
-        backgroundColor: "rgba(54, 162, 235, 0.6)"
-      }
-    ]
-  };
-
-  // Pie Chart
-  const pieData = {
-    labels: ["Housekeeping", "Room Service", "Maintenance"],
-    datasets: [
-      {
-        data: [35, 45, 20],
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.7)",
-          "rgba(54, 162, 235, 0.7)",
-          "rgba(255, 206, 86, 0.7)"
-        ]
-      }
-    ]
-  };
 
   return (
     <div className="staff-dashboard-root">
@@ -104,38 +59,32 @@ export default function StaffDashboard() {
           </div>
         </div>
 
-        <div className="charts-row">
-          <div className="chart-card">
-            <h3>Occupancy Trends</h3>
-            <Bar data={occupancyData} />
-          </div>
 
-          <div className="chart-card">
-            <h3>Service Requests</h3>
-            <Pie data={pieData} />
-          </div>
-        </div>
 
         <div className="table-card">
           <h3>Recent Bookings</h3>
 
-          <table>
+          <table align="center">
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Customer</th>
-                <th>Room</th>
+                <th>Room/Packages</th>
                 <th>Date</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>
               {recentBookings.length > 0 ? (
                 recentBookings.map((b) => (
-                  <tr key={b.bookingId}>
-                    <td>{b.bookingId}</td>
-                    <td>{b.customerName}</td>
-                    <td>{b.roomNumber}</td>
-                    <td>{b.bookingDate}</td>
+                  <tr key={b.id}>
+                    <td>{b.id}</td>
+                    <td>{b.customer.name}</td>
+                    <td>{b.room
+                        ? b.room.roomNumber
+                        : b.travelPackage?.title || "-"}</td>
+                    <td>{b.checkInDate}</td>
+                    <td>{b.status}</td>
                   </tr>
                 ))
               ) : (
