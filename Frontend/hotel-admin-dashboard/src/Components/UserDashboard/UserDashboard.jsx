@@ -3,6 +3,7 @@ import UserSidebar from "./UserSidebar";
 import MyBookings from "./MyBookings";
 import UpcomingTrips from "./UpcomingTrips";
 import TravelPackages from "./TravelPackages";
+import GuestServiceRequest from "./GuestServiceRequest";
 import "./UserDashboard.css";
 
 const UserDashboard = () => {
@@ -29,6 +30,8 @@ const UserDashboard = () => {
         return <UpcomingTrips user={loggedUser} />;
       case "packages":
         return <TravelPackages user={loggedUser} />;
+      case "service":
+        return <GuestServiceRequest user={loggedUser} />;
       default:
         return <MyBookings user={loggedUser} />;
     }

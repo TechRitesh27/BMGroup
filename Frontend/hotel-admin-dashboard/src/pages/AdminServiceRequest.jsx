@@ -1,49 +1,50 @@
 import React, { useEffect, useState } from "react";
-import "./staffServiceRequest.css";
-import Sidebar from "../StaffSidebar.jsx";
+import "./AdminServiceRequest.css";
+// import Sidebar from "../AdminSidebar.jsx";
 import axios from "axios";
 
-export default function StaffServiceRequest() {
-  const staffId = 12; // 🔴 Replace with logged-in staff ID later
-
+export default function AdminServiceRequest() {
   const [requests, setRequests] = useState([]);
+  const [staffIdInput, setStaffIdInput] = useState("");
 
   useEffect(() => {
-    fetchRequests();
+    fetchAllRequests();
   }, []);
 
-  const fetchRequests = async () => {
+  const fetchAllRequests = async () => {
     try {
-      const res = await axios.get(
-        `/api/service-requests/staff/${staffId}`
-      );
+      const res = await axios.get("/api/service-requests");
       setRequests(res.data);
     } catch (err) {
       console.error("Failed to load service requests", err);
     }
   };
 
-  const updateStatus = async (id, status) => {
+  const assignStaff = async (requestId) => {
+    if (!staffIdInput) {
+      alert("Please enter Staff ID");
+      return;
+    }
+
     try {
       await axios.put(
-        `/api/service-requests/${id}/status`,
-        null,
-        { params: { status } }
+        `/api/service-requests/${requestId}/assign/${staffIdInput}`
       );
-      fetchRequests();
+      setStaffIdInput("");
+      fetchAllRequests();
     } catch (err) {
-      alert("Status update failed");
+      alert("Failed to assign staff");
     }
   };
 
   return (
-    <div className="staff-service-root">
-      <Sidebar />
+    <div className="admin-service-root">
+      {/* <Sidebar /> */}
 
-      <div className="service-requests-page">
-        <h2>Service Requests</h2>
+      <div className="admin-service-page">
+        <h2>Service Requests (Admin)</h2>
         <p className="subtitle">
-          View and manage assigned service requests
+          View and assign service requests to staff
         </p>
 
         {/* STATS */}
@@ -54,9 +55,9 @@ export default function StaffServiceRequest() {
           </div>
 
           <div className="stat-card">
-            <h4>Assigned</h4>
+            <h4>Pending</h4>
             <span>
-              {requests.filter(r => r.status === "ASSIGNED").length}
+              {requests.filter(r => r.status === "PENDING").length}
             </span>
           </div>
 
@@ -70,7 +71,7 @@ export default function StaffServiceRequest() {
 
         {/* TABLE */}
         <div className="table-card">
-          <h3>My Assigned Requests</h3>
+          <h3>All Service Requests</h3>
 
           <table>
             <thead>
@@ -81,8 +82,9 @@ export default function StaffServiceRequest() {
                 <th>Room</th>
                 <th>Priority</th>
                 <th>Status</th>
+                <th>Assigned Staff</th>
                 <th>Requested At</th>
-                <th>Action</th>
+                <th>Assign</th>
               </tr>
             </thead>
 
@@ -110,30 +112,36 @@ export default function StaffServiceRequest() {
                   </td>
 
                   <td>
+                    {req.assignedStaffId ? `Staff-${req.assignedStaffId}` : "-"}
+                  </td>
+
+                  <td>
                     {new Date(req.createdAt).toLocaleString()}
                   </td>
 
                   <td>
-                    {req.status === "ASSIGNED" && (
-                      <button
-                        className="action-btn start"
-                        onClick={() => updateStatus(req.id, "IN_PROGRESS")}
-                      >
-                        Start
-                      </button>
-                    )}
-
-                    {req.status === "IN_PROGRESS" && (
-                      <button
-                        className="action-btn complete"
-                        onClick={() => updateStatus(req.id, "COMPLETED")}
-                      >
-                        Complete
-                      </button>
-                    )}
-
-                    {req.status === "COMPLETED" && (
-                      <span className="done-text">Done</span>
+                    {req.status === "PENDING" ? (
+                      <div style={{ display: "flex", gap: "6px" }}>
+                        <input
+                          type="number"
+                          placeholder="Staff ID"
+                          value={staffIdInput}
+                          onChange={(e) => setStaffIdInput(e.target.value)}
+                          style={{
+                            width: "80px",
+                            padding: "4px",
+                            fontSize: "12px",
+                          }}
+                        />
+                        <button
+                          className="action-btn start"
+                          onClick={() => assignStaff(req.id)}
+                        >
+                          Assign
+                        </button>
+                      </div>
+                    ) : (
+                      <span className="done-text">—</span>
                     )}
                   </td>
                 </tr>
@@ -141,8 +149,8 @@ export default function StaffServiceRequest() {
 
               {requests.length === 0 && (
                 <tr>
-                  <td colSpan="8" style={{ textAlign: "center" }}>
-                    No service requests assigned
+                  <td colSpan="9" style={{ textAlign: "center" }}>
+                    No service requests available
                   </td>
                 </tr>
               )}

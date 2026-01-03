@@ -57,6 +57,13 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             {!collapsed && <span className="label">Booking Calendar</span>}
           </NavLink>
         </li>
+        
+        <li>
+          <NavLink to="/AdminServiceRequest" className="sidebar-link">
+            <span className="icon">📅</span>
+            {!collapsed && <span className="label">Service Request</span>}
+          </NavLink>
+        </li>
 
         <li>
           <NavLink to="/customers" className="sidebar-link">

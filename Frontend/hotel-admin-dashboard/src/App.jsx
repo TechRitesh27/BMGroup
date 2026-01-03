@@ -19,6 +19,7 @@ import Login from "./Components/Login/Login.jsx";
 import StaffManageBookings from "./Components/StaffDashboard/staff/staff_managebookings.jsx";
 import StaffServiceRequest from "./Components/StaffDashboard/staff/staffSeviceRequest.jsx";
 import StaffInvoiceManagement from "./Components/StaffDashboard/staff/staffInvoiceManagement.jsx";
+import AdminServiceRequest from "./pages/AdminServiceRequest.jsx";
 
 function App() {
   return (
@@ -79,6 +80,15 @@ function App() {
           element={
             <AdminLayout>
               <CustomerList />
+            </AdminLayout>
+          }
+        />
+
+        <Route
+          path="/AdminServiceRequest"
+          element={
+            <AdminLayout>
+              <AdminServiceRequest />
             </AdminLayout>
           }
         />

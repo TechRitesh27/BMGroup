@@ -1,4 +1,7 @@
 package com.BMGroups.HotelShirdi.model;
 
-public class Priority {
+public enum Priority {
+    LOW,
+    MEDIUM,
+    HIGH
 }

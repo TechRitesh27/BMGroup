@@ -1,4 +1,9 @@
 package com.BMGroups.HotelShirdi.model;
 
-public class ServiceStatus {
+public enum ServiceStatus {
+    PENDING,
+    ASSIGNED,
+    IN_PROGRESS,
+    COMPLETED,
+    CANCELLED
 }
