@@ -1,5 +1,5 @@
 // src/pages/ManageRoomTypes.jsx
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import RoomTypeForm from "../components/RoomTypeForm.jsx";
 import RoomTypeTable from "../components/RoomTypeTable.jsx";

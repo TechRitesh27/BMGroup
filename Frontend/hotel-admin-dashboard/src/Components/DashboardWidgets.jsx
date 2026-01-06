@@ -1,5 +1,6 @@
 // src/components/DashboardWidgets.jsx
 import './DashboardWidgets.css';
+import React from 'react';
 
 const DashboardWidgets = ({ stats }) => {
   const {

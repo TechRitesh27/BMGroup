@@ -6,9 +6,11 @@ const HeroSection = () => (
     <div className="hero-overlay">
       <div className="hero-content">
         <h2>WELCOME TO</h2>
-        <h1>LUXURY HOTELS</h1>
+        <h1>BM GROUP of Hotels</h1>
         <p>Experience comfort and luxury at the best prices</p>
-        <button className="btn-booknow">Book Now</button>
+        <a href="#rooms" className="btn-booknow">
+          Book Now
+        </a>
       </div>
     </div>
   </section>

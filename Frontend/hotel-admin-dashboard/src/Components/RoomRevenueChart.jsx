@@ -1,6 +1,6 @@
 import { Bar } from 'react-chartjs-2';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const RoomRevenueChart = () => {
   const [data, setData] = useState([]);

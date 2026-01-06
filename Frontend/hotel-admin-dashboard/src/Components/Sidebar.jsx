@@ -7,11 +7,11 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("loggedUser");
-  localStorage.removeItem("token");
-  sessionStorage.removeItem("session");
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("session");
 
     navigate("/login");
-     window.location.reload(true);
+    window.location.reload(true);
   };
 
   return (
@@ -50,21 +50,18 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             {!collapsed && <span className="label">Bookings</span>}
           </NavLink>
         </li>
-
         <li>
           <NavLink to="/bookingcalendar" className="sidebar-link">
             <span className="icon">📅</span>
             {!collapsed && <span className="label">Booking Calendar</span>}
           </NavLink>
         </li>
-        
         <li>
           <NavLink to="/AdminServiceRequest" className="sidebar-link">
             <span className="icon">📅</span>
             {!collapsed && <span className="label">Service Request</span>}
           </NavLink>
         </li>
-
         <li>
           <NavLink to="/customers" className="sidebar-link">
             <span className="icon">👥</span>
@@ -77,11 +74,11 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             {!collapsed && <span className="label">Packages</span>}
           </NavLink>
         </li>
-        <li onClick={handleLogout} className="sidebar-link logout-btn">
-          <span className="icon">🔓</span>
-          {!collapsed && <span className="label">Logout</span>}
+        <li>
+          <button className="sidebar-link logout-btn" onClick={handleLogout}>
+            🔓 {!collapsed && <span className="label">LogOut</span>}
+          </button>
         </li>
-        
       </ul>
     </div>
   );

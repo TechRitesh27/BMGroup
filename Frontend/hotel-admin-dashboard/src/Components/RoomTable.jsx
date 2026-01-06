@@ -1,5 +1,5 @@
 // src/components/RoomTable.jsx
-import { useState } from "react";
+import React, { useState } from "react";
 import "./RoomTable.css";
 
 const RoomTable = ({ rooms, bookings, getRoomStatus, onEdit, onDelete }) => {

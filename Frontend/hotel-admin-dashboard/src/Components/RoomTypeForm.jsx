@@ -1,5 +1,5 @@
 // src/components/RoomTypeForm.jsx
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./RoomTypeForm.css";
 
 const RoomTypeForm = ({ onSubmit, editingType }) => {

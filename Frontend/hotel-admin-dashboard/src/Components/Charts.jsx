@@ -14,6 +14,7 @@ import "./Charts.css";
 import { NavLink } from "react-router-dom";
 import BookingTrendsChart from "./BookingTrendsChart";
 import RoomRevenueChart from "./RoomRevenueChart";
+import React from 'react';
 
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";

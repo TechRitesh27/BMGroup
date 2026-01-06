@@ -1,5 +1,5 @@
 // src/pages/ManageRooms.jsx
-import { useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import axios from "axios";
 import RoomForm from "../components/RoomForm.jsx";
 import RoomTable from "../components/RoomTable.jsx";

@@ -1,4 +1,5 @@
 // src/components/RoomTypeTable.jsx
+import React from 'react';
 import './RoomTypeTable.css';
 
 const RoomTypeTable = ({ types, onEdit, onDelete }) => {
